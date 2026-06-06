@@ -93,7 +93,18 @@ function validateAnalysisRequest(req, res, next) {
 }
 
 // ── Static files ──
-app.use(express.static(path.join(__dirname, '..', 'public')));
+const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+app.use(express.static(PUBLIC_DIR));
+
+// Explicitly serve index.html for SPA/root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
+
+// Fallback: any unmatched GET returns index.html (SPA routing)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -267,13 +278,13 @@ ${newsContext}
 });
 
 // ── Graceful Shutdown ──
-const server = app.listen(PORT, () => {
-  console.log(`⚽ World Cup 2026 Backend — http://localhost:${PORT}`);
-  console.log(`📡 API: http://localhost:${PORT}/api/analyze`);
-  console.log(`📰 News: http://localhost:${PORT}/api/news`);
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`⚽ World Cup 2026 Backend — port ${PORT}`);
+  console.log(`📁 Public dir: ${PUBLIC_DIR}`);
+  console.log(`📡 API: /api/analyze  /api/news  /api/health`);
   console.log(`🔑 DeepSeek: ${DEEPSEEK_API_KEY ? 'CONFIGURED' : 'MISSING'}`);
   console.log(`🌍 Mode: ${process.env.NODE_ENV || 'development'}`);
 });
 
-process.on('SIGTERM', () => { console.log('Shutting down...'); server.close(() => process.exit(0)); });
-process.on('SIGINT', () => { console.log('Shutting down...'); server.close(() => process.exit(0)); });
+process.on('SIGTERM', () => { console.log('SIGTERM received, shutting down...'); server.close(() => process.exit(0)); });
+process.on('SIGINT', () => { console.log('SIGINT received, shutting down...'); server.close(() => process.exit(0)); });
