@@ -1060,6 +1060,7 @@ function getRoster(teamId) {
 // ═══════ APP LOGIC ═══════
 let s1=null,s2=null;
 const API_BASE = (window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')?'http://localhost:3000':'';
+// on Render (or any deploy), API_BASE='' means same-origin requests
 
 function buildOptions(slot){
   const container=document.getElementById('options'+slot);
@@ -1161,7 +1162,7 @@ function offlineAnalysis() {
     '',
     '综合实力评估：'+winner.cn+'略占上风。两队近期状态和数据表现显示这将是一场激烈的对决。',
     '',
-    '当前为离线模式。如需 DeepSeek AI 实时分析（含最新新闻数据），请在本机运行后端服务器后访问 http://localhost:3000'
+    '当前为离线模式。如需 DeepSeek AI 实时分析（含最新新闻数据），请检查网络连接或稍后重试'
   ].join('\n');
 }
 
@@ -1173,7 +1174,6 @@ async function runAnalysis(){
   document.getElementById('opinionBlock').style.display='none';
   document.getElementById('analysisBlock').innerHTML='<div class="loading-overlay"><div class="spinner"></div><p class="loading-text">DeepSeek AI 正在分析中...</p></div>';
   document.getElementById('resultPanel').scrollIntoView({behavior:'smooth'});
-  if(!API_BASE){document.getElementById('analysisBlock').innerHTML=renderAnalysis(offlineAnalysis());return}
   try{
     const res=await fetch(API_BASE+'/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({team1:s1.cn+' ('+s1.name+')',team2:s2.cn+' ('+s2.name+')',team1Opinion:s1.opinion||'',team2Opinion:s2.opinion||'',team1Roster:s1.starters||'',team2Roster:s2.starters||'',team1Rank:s1.rank,team2Rank:s2.rank})});
     const data=await res.json();
@@ -1367,10 +1367,6 @@ async function showOpinions(){
 async function fetchTeamNews(){
   const container=document.getElementById('newsContainer');
   container.innerHTML='<div class="loading-overlay"><div class="spinner"></div><p class="loading-text">正在从谷歌新闻和必应新闻搜索实时信息...</p></div>';
-  if(!API_BASE){
-    container.innerHTML='<div class="error-block"><p> 离线模式下无法搜索实时新闻</p><p style="font-size:12px">请在本地运行后端服务器 http://localhost:3000</p></div>';
-    return;
-  }
   try{
     const [r1,r2]=await Promise.all([
       fetch(API_BASE+'/api/news',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({teamCN:s1.cn,teamEN:s1.name})}),
