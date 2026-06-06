@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.json
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Build output
+build/
+dist/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Data files (large CSVs)
+backend/*.csv
+backend/*-images-*.js
+
+# Temp files
+*.tmp
+*.bak
+*.bak2
+*.bak3

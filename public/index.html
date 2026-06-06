@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 FIFA 世界杯预测系统 | 美加墨</title>
+<style>
+/* ═══════════════════════════════════
+   PREMIUM DESIGN SYSTEM
+   2026 World Cup Predictor — Gold & Navy
+   ═══════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C8A951;--gold-bright:#F0D878;--gold-dark:#8B6914;
+  --navy:#0A1628;--navy-mid:#0F1F3D;--navy-light:#162B52;
+  --dark:#040D18;--card:rgba(15,31,61,0.7);
+  --border:rgba(200,169,81,0.18);--border-hover:rgba(200,169,81,0.4);
+  --text:#EBE5D5;--text-dim:#8893A8;--text-muted:#5A6375;
+  --accent:#C41E3A;--accent-blue:#1E439A;
+  --glass:rgba(255,255,255,0.03);
+  --radius:18px;--radius-sm:10px;
+  --shadow:0 8px 40px rgba(0,0,0,0.4);
+  --transition:0.3s cubic-bezier(0.16,1,0.3,1);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans SC','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--dark);color:var(--text);
+  min-height:100vh;line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%,rgba(200,169,81,0.04) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%,rgba(30,67,154,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%,rgba(196,30,58,0.03) 0%,transparent 70%),
+    linear-gradient(180deg,#060D18 0%,#0A1628 40%,#0F1F3D 100%);
+}
+/* Animated field lines */
+body::after{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(0deg,transparent 49.9%,rgba(200,169,81,0.03) 50%,transparent 50.1%) 0 0/100% 120px,
+    linear-gradient(90deg,transparent 49.9%,rgba(200,169,81,0.03) 50%,transparent 50.1%) 0 0/120px 100%;
+  animation:fieldShift 30s linear infinite;
+}
+@keyframes fieldShift{to{transform:translate(60px,60px)}}
+
+/* ═══════ CONTAINER ═══════ */
+.container{max-width:1500px;margin:0 auto;padding:24px 20px}
+
+/* ═══════ HERO ═══════ */
+.hero{
+  position:relative;text-align:center;padding:60px 20px 50px;margin-bottom:28px;
+  border-radius:24px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(200,169,81,0.08) 0%,rgba(10,22,40,0.6) 60%,rgba(10,22,40,0.95) 100%),
+    url('https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?w=1920&q=80') center 30%/cover no-repeat;
+  border:1px solid var(--border);
+}
+.hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 50% 30%,rgba(200,169,81,0.12) 0%,transparent 70%);
+  pointer-events:none;z-index:1;
+}
+.hero>*{position:relative;z-index:2}
+.trophy-wrap{
+  width:130px;height:130px;margin:0 auto 18px;position:relative;
+  background:radial-gradient(circle,rgba(200,169,81,0.2),transparent 65%);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.trophy-wrap svg{width:80px;height:105px;filter:drop-shadow(0 0 30px rgba(200,169,81,0.5))}
+.trophy-wrap::after{
+  content:'';position:absolute;width:140px;height:140px;
+  background:radial-gradient(circle,rgba(240,216,120,0.15),transparent 70%);
+  border-radius:50%;animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.3);opacity:0}}
+.hero h1{
+  font-size:clamp(32px,6vw,58px);font-weight:900;letter-spacing:4px;
+  background:linear-gradient(180deg,#F0D878 0%,#C8A951 40%,#8B6914 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:10px;line-height:1.2;
+}
+.hero .subtitle{font-size:15px;color:var(--text-dim);letter-spacing:8px;text-transform:uppercase}
+.hero .date{
+  font-size:13px;color:rgba(200,169,81,0.55);margin-top:12px;letter-spacing:3px;
+  display:inline-block;padding:6px 24px;border:1px solid rgba(200,169,81,0.15);
+  border-radius:30px;backdrop-filter:blur(10px);
+}
+
+/* ═══════ SECTIONS ═══════ */
+.section{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:36px 32px;margin-bottom:28px;
+  backdrop-filter:blur(30px) saturate(120%);
+  -webkit-backdrop-filter:blur(30px) saturate(120%);
+  box-shadow:var(--shadow);transition:border-color var(--transition);
+}
+.section:hover{border-color:var(--border-hover)}
+.section-title{
+  font-size:22px;font-weight:700;color:var(--gold);
+  margin-bottom:28px;letter-spacing:3px;
+  display:flex;align-items:center;gap:14px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+
+/* ═══════ TEAM SELECT ═══════ */
+.selector-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center}
+.team-select-group{flex:1;min-width:300px;max-width:440px;position:relative}
+.team-select-group label{
+  display:block;font-size:11px;color:var(--text-muted);letter-spacing:4px;
+  text-transform:uppercase;margin-bottom:10px;font-weight:500;
+}
+.team-select-group select{
+  width:100%;padding:16px 20px;font-size:15px;
+  background:rgba(0,0,0,0.45);color:var(--text);
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  cursor:pointer;outline:none;transition:all var(--transition);
+  font-family:inherit;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C8A951' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;
+}
+.team-select-group select:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(200,169,81,0.08)}
+.team-select-group select option{background:var(--navy-mid);color:var(--text);padding:10px}
+.vs-badge{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(200,169,81,0.15),rgba(200,169,81,0.05));
+  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:18px;color:var(--gold);flex-shrink:0;
+  box-shadow:0 0 30px rgba(200,169,81,0.1);transition:all var(--transition);
+}
+.vs-badge:hover{box-shadow:0 0 50px rgba(200,169,81,0.25);transform:scale(1.05)}
+
+/* ═══════ BUTTONS ═══════ */
+.btn-row{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.btn{
+  padding:15px 40px;font-size:15px;font-weight:700;border:none;border-radius:50px;
+  cursor:pointer;transition:all var(--transition);letter-spacing:2px;
+  font-family:inherit;position:relative;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity var(--transition);
+}
+.btn-primary{
+  background:linear-gradient(135deg,#C8A951 0%,#A88A3D 50%,#8B6914 100%);
+  color:#0A1628;box-shadow:0 6px 30px rgba(200,169,81,0.3);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(200,169,81,0.5)}
+.btn-primary:active{transform:translateY(0)}
+.btn-secondary{
+  background:rgba(255,255,255,0.04);color:var(--text);
+  border:1px solid var(--border);backdrop-filter:blur(10px);
+}
+.btn-secondary:hover{background:rgba(200,169,81,0.1);border-color:var(--gold);transform:translateY(-2px)}
+
+/* ═══════ RESULT PANEL ═══════ */
+.result-panel{display:none}
+.result-header{
+  display:flex;align-items:center;justify-content:center;gap:40px;
+  margin-bottom:36px;flex-wrap:wrap;
+}
+.team-display{
+  text-align:center;min-width:180px;padding:24px 20px;
+  background:var(--glass);border-radius:var(--radius);
+  border:1px solid var(--border);transition:all var(--transition);
+  backdrop-filter:blur(20px);
+}
+.team-display:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.team-flag-wrap{
+  width:80px;height:80px;margin:0 auto 14px;border-radius:50%;
+  background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;
+  border:2px solid rgba(200,169,81,0.2);box-shadow:0 0 30px rgba(200,169,81,0.1);
+}
+.team-flag-wrap .flag{font-size:48px;line-height:1}
+.team-name{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px}
+.team-name-en{font-size:12px;color:var(--text-muted);letter-spacing:1px}
+.team-fifa{
+  font-size:11px;color:var(--gold);margin-top:8px;padding:3px 12px;
+  background:rgba(200,169,81,0.1);border-radius:20px;display:inline-block;
+}
+.result-vs{
+  font-size:36px;font-weight:900;color:var(--gold);
+  text-shadow:0 0 30px rgba(200,169,81,0.3);
+}
+
+/* ═══════ ROSTER - PREMIUM ═══════ */
+.roster-section{margin-top:30px}
+.roster-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.roster-tab{
+  padding:11px 26px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:30px;color:var(--text-dim);cursor:pointer;
+  transition:all var(--transition);font-family:inherit;letter-spacing:1px;
+}
+.roster-tab:hover{background:rgba(200,169,81,0.08);border-color:var(--border-hover);color:var(--text)}
+.roster-tab.active{
+  background:linear-gradient(135deg,rgba(200,169,81,0.18),rgba(200,169,81,0.05));
+  color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 20px rgba(200,169,81,0.1);
+}
+
+/* Star Player Hero Banner */
+.roster-hero{
+  position:relative;border-radius:var(--radius);overflow:hidden;margin-bottom:24px;
+  padding:60px 36px 36px;min-height:220px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  background-size:cover;background-position:center 15%;background-repeat:no-repeat;
+  background-color:var(--dark);border:1px solid rgba(255,255,255,0.06);
+  box-shadow:inset 0 -80px 120px rgba(0,0,0,0.6);
+}
+.roster-hero-content{position:relative;z-index:2}
+.roster-hero-overlay{position:absolute;inset:0;z-index:0}
+.star-tag{
+  display:inline-block;padding:5px 16px;
+  background:linear-gradient(135deg,rgba(200,169,81,0.3),rgba(200,169,81,0.08));
+  border:1px solid rgba(200,169,81,0.4);border-radius:30px;
+  font-size:10px;letter-spacing:4px;color:var(--gold-bright);
+  text-transform:uppercase;margin-bottom:12px;backdrop-filter:blur(10px);
+}
+.star-name{
+  font-size:clamp(28px,4.5vw,44px);font-weight:900;letter-spacing:3px;
+  background:linear-gradient(180deg,#FFF 0%,var(--gold-bright) 60%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin-bottom:6px;
+}
+.star-club{font-size:13px;color:var(--text-dim);letter-spacing:2px}
+
+/* Pitch */
+.pitch-container{
+  background:linear-gradient(180deg,#0a5c2a 0%,#0d4a22 30%,#0a3d1a 60%,#083014 100%);
+  border-radius:var(--radius);padding:36px 24px;margin-bottom:12px;
+  position:relative;overflow:hidden;
+  border:2px solid rgba(255,255,255,0.06);
+  min-height:340px;display:flex;flex-direction:column;justify-content:space-between;
+  box-shadow:inset 0 2px 60px rgba(0,0,0,0.3);
+}
+.pitch-container::before{
+  content:'';position:absolute;top:50%;left:4%;right:4%;height:1px;
+  background:rgba(255,255,255,0.1);z-index:0;
+}
+.pitch-container::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:100px;height:100px;border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:50%;z-index:0;
+}
+.pitch-bg{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;height:100%}
+.formation-row{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  padding:4px 0;gap:10px;
+}
+.formation-row .player-card{
+  background:rgba(0,0,0,0.55);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.06);flex-direction:column;
+  padding:10px 14px;border-radius:12px;gap:6px;text-align:center;
+  width:auto;min-width:75px;transition:all var(--transition);
+}
+.formation-row .player-card:hover{
+  background:rgba(200,169,81,0.18);border-color:rgba(200,169,81,0.4);
+  transform:translateY(-4px);box-shadow:0 8px 25px rgba(0,0,0,0.4);
+}
+.formation-row .player-card .player-avatar{
+  box-shadow:0 0 18px rgba(200,169,81,0.2);margin:0 auto;
+}
+.formation-row .p-name{font-size:11px!important;color:var(--text)}
+.formation-row .p-pos{font-size:9px;color:var(--text-muted)}
+.formation-row .p-club{font-size:8px!important;color:rgba(200,169,81,0.4)}
+
+/* Roster Grid (substitutes) */
+.roster-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;
+}
+.player-card{
+  display:flex;align-items:center;gap:14px;padding:12px 16px;
+  background:rgba(255,255,255,0.02);border-radius:12px;
+  border:1px solid rgba(255,255,255,0.03);transition:all var(--transition);
+}
+.player-card:hover{
+  background:rgba(200,169,81,0.05);border-color:rgba(200,169,81,0.2);
+  transform:translateY(-2px);
+}
+.player-avatar{
+  border-radius:50%;flex-shrink:0;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:#fff;letter-spacing:0.5px;
+  background-size:cover;background-position:center;
+  background-color:rgba(200,169,81,0.2);
+  box-shadow:0 4px 15px rgba(0,0,0,0.3);
+  position:relative;
+}
+.player-avatar::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid rgba(200,169,81,0.25);pointer-events:none;
+  transition:border-color var(--transition);
+}
+.player-card:hover .player-avatar::after{border-color:rgba(200,169,81,0.55)}
+.player-avatar.has-image::after{border-color:transparent}
+.player-card:hover .player-avatar.has-image::after{border-color:rgba(200,169,81,0.3)}
+/* No-image fallback: football silhouette bg pattern */
+.player-avatar.no-image::before{
+  content:'';position:absolute;inset:-8px;opacity:0.08;
+  background:
+    radial-gradient(circle at 50% 35%,#fff 0%,transparent 55%),
+    radial-gradient(circle at 35% 60%,#fff 0%,transparent 30%),
+    radial-gradient(circle at 50% 0,#fff 1px,transparent 1px),
+    radial-gradient(circle at 25% 20%,#fff 1px,transparent 1px),
+    radial-gradient(circle at 75% 20%,#fff 1px,transparent 1px),
+    radial-gradient(circle at 40% 50%,#fff 1px,transparent 1px),
+    radial-gradient(circle at 60% 50%,#fff 1px,transparent 1px);
+  border-radius:50%;
+}
+.player-info{min-width:0}
+.player-info .p-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-info .p-pos{font-size:10px;color:var(--text-muted);letter-spacing:1px}
+.player-info .p-club{font-size:10px;color:var(--gold);opacity:0.6}
+
+.roster-section-label{
+  font-size:11px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;
+  margin:28px 0 14px;padding-bottom:10px;
+  border-bottom:1px solid rgba(200,169,81,0.12);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.formation-badge{
+  font-size:12px;padding:5px 16px;
+  background:linear-gradient(135deg,rgba(200,169,81,0.18),rgba(200,169,81,0.05));
+  border:1px solid rgba(200,169,81,0.25);border-radius:30px;
+  color:var(--gold-bright);letter-spacing:1px;font-weight:500;
+}
+
+/* ═══════ ANALYSIS ═══════ */
+.analysis-block{
+  background:rgba(0,0,0,0.25);border-radius:var(--radius);padding:32px;margin-top:32px;
+  border:1px solid rgba(255,255,255,0.04);line-height:2;
+}
+.analysis-block p{margin-bottom:16px;color:var(--text);font-size:15px}
+
+/* ═══════ OPINION ═══════ */
+.opinion-block{
+  margin-top:32px;padding:28px;
+  background:linear-gradient(135deg,rgba(200,169,81,0.06),rgba(200,169,81,0.01));
+  border-left:4px solid var(--gold);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+}
+.opinion-block h3{color:var(--gold-bright);font-size:15px;letter-spacing:3px;margin-bottom:16px;font-weight:700}
+.opinion-block p{margin-bottom:10px;color:var(--text-dim);font-size:14px;line-height:1.8}
+.opinion-block strong{color:var(--text);font-size:15px;display:block;margin-bottom:6px}
+.news-block{margin-top:16px;padding:16px;background:rgba(0,0,0,0.25);border-radius:10px;max-height:400px;overflow-y:auto}
+.news-block h4{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:10px}
+.news-item{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:var(--text-dim);line-height:1.6}
+.news-item:last-child{border-bottom:none}
+.news-item .news-title{color:var(--text);font-weight:500}
+.news-item .news-src{font-size:10px;color:var(--text-muted);margin-top:2px}
+
+/* ═══════ LOADING ═══════ */
+.loading-overlay{text-align:center;padding:50px}
+.spinner{
+  width:48px;height:48px;border:3px solid var(--border);
+  border-top-color:var(--gold);border-radius:50%;margin:0 auto 20px;
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:var(--text-dim);font-size:14px;letter-spacing:1px}
+
+/* ═══════ ERROR ═══════ */
+.error-block{text-align:center;padding:40px;color:var(--accent)}
+.error-block p{margin-top:12px;color:var(--text-dim)}
+
+/* ═══════ FOOTER ═══════ */
+.footer{
+  text-align:center;padding:48px 20px;color:var(--text-muted);
+  font-size:12px;letter-spacing:3px;border-top:1px solid var(--border);
+  margin-top:20px;
+}
+.footer a{color:var(--gold);text-decoration:none}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:768px){
+  .container{padding:12px}
+  .hero{padding:40px 16px 30px}
+  .trophy-wrap{width:90px;height:90px}
+  .trophy-wrap svg{width:60px;height:75px}
+  .hero h1{font-size:26px;letter-spacing:2px}
+  .selector-row{flex-direction:column;align-items:stretch;gap:14px}
+  .team-select-group{max-width:100%}
+  .result-header{gap:16px}
+  .team-display{padding:16px 12px;min-width:140px}
+  .team-flag-wrap{width:60px;height:60px}
+  .team-flag-wrap .flag{font-size:36px}
+  .team-name{font-size:17px}
+  .section{padding:22px 16px}
+  .btn{padding:13px 28px;font-size:14px}
+  .roster-hero{padding:40px 20px 24px;min-height:160px}
+  .star-name{font-size:24px}
+  .roster-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .pitch-container{padding:24px 10px;min-height:280px}
+  .formation-row{gap:4px}
+  .formation-row .player-card{min-width:55px;padding:6px 8px}
+  .formation-row .player-avatar{width:38px!important;height:38px!important}
+  .formation-row .p-name{font-size:9px!important}
+  .formation-row .p-club{display:none}
+  .analysis-block{padding:20px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="hero">
+  <div class="trophy-wrap">
+    <svg viewBox="0 0 80 100" fill="none"><path d="M40 5L55 20H65L55 40H60C70 40 75 50 70 58L55 50L50 70H30L25 50L10 58C5 50 10 40 20 40H25L15 20H25L40 5Z" fill="url(#tg)" stroke="url(#ts)" stroke-width="1.5"/><rect x="32" y="70" width="16" height="20" rx="3" fill="url(#tg)" stroke="url(#ts)" stroke-width="1.5"/><rect x="22" y="88" width="36" height="7" rx="3" fill="url(#tg)"/><defs><linearGradient id="tg" x1="0" y1="0" x2="80" y2="100"><stop stop-color="#F0D878"/><stop offset="1" stop-color="#C8A951"/></linearGradient><linearGradient id="ts" x1="0" y1="0" x2="80" y2="100"><stop stop-color="#F0D878"/><stop offset="1" stop-color="#8B6914"/></linearGradient></defs></svg>
+  </div>
+  <h1>2026 FIFA 世界杯</h1>
+  <p class="subtitle">联合 2026 · 加拿大 · 墨西哥 · 美国</p>
+  <p class="date">2026年6月11日 — 7月19日 · 48 支球队 · 16 个主办城市</p>
+</header>
+
+<section class="section">
+  <h2 class="section-title">比赛预测</h2>
+  <div class="selector-row">
+    <div class="team-select-group">
+      <label>主队</label>
+      <select id="team1"><option value="">— 请选择球队 —</option></select>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="team-select-group">
+      <label>客队</label>
+      <select id="team2"><option value="">— 请选择球队 —</option></select>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="btnAnalyze">AI 对战分析</button>
+    <button class="btn btn-secondary" id="btnRosters">查看阵容</button>
+    <button class="btn btn-secondary" id="btnOpinions">个人分析</button>
+  </div>
+</section>
+
+<section class="section result-panel" id="resultPanel">
+  <h2 class="section-title">分析结果</h2>
+  <div class="result-header">
+    <div class="team-display">
+      <div class="team-flag-wrap"><span class="flag" id="rFlag1"></span></div>
+      <div class="team-name" id="rName1"></div>
+      <div class="team-name-en" id="rNameEn1"></div>
+      <div class="team-fifa" id="rRank1"></div>
+    </div>
+    <div class="result-vs">VS</div>
+    <div class="team-display">
+      <div class="team-flag-wrap"><span class="flag" id="rFlag2"></span></div>
+      <div class="team-name" id="rName2"></div>
+      <div class="team-name-en" id="rNameEn2"></div>
+      <div class="team-fifa" id="rRank2"></div>
+    </div>
+  </div>
+  <div class="roster-section" id="rosterSection" style="display:none">
+    <div class="roster-tabs" id="rosterTabs"></div>
+    <div id="rosterContent"></div>
+  </div>
+  <div class="opinion-block" id="opinionBlock" style="display:none"></div>
+  <div id="analysisBlock" class="analysis-block"></div>
+</section>
+
+<footer class="footer">
+  <p>2026 FIFA 世界杯&trade; 预测系统 · 由 DeepSeek AI 驱动</p>
+  <p style="margin-top:8px;font-size:11px;color:var(--text-muted)">数据来源：谷歌新闻 & 必应新闻实时搜索 · 仅供娱乐参考</p>
+</footer>
+</div>
+
+<script src="teams-data.js"></script>
+<script>
+// ═══════════════════════════════════
+// COMPLETE 48-TEAM DATABASE
+// (same as before — kept for data integrity)
+// ═══════════════════════════════════
+const TEAMS = [
+  {id:"MEX",name:"Mexico",cn:"墨西哥",group:"A",rank:15,flag:"🇲🇽",
+   opinion:"墨西哥拥有多名效力于欧洲五大联赛的球员，整体实力不容低估。作为本届世界杯的联合东道主之一，主场作战将带来显著的心理和氛围优势。中场核心Edson Álvarez在费内巴切表现出色，前锋Santiago Giménez在AC米兰逐渐站稳脚跟。球队在最近几届世界杯中均成功小组出线，2026年在熟悉的美洲大陆作战，完全有能力突破八强门槛。需警惕的是防线在面对高压逼抢时偶有失误，但整体阵容深度和经验足以弥补。预计至少进入十六强，四分之一决赛是现实目标。",
+   starters:"Raúl Rangel/Santiago Giménez/Edson Álvarez/Luis Chávez/Cesar Huerta/Johan Vásquez"},
+  {id:"CAN",name:"Canada",cn:"加拿大",group:"A",rank:50,
+   opinion:"加拿大足球近年来取得了长足进步，但客观评估其阵容实力仍以五大联赛边缘球员和次级联赛球员为主。Alphonso Davies是队内唯一的顶级球星，Jonathan David在尤文图斯的表现也值得关注。东道主身份是最大优势——主场球迷的支持和熟悉的比赛环境可以在一定程度上弥补实力差距。然而在对阵传统强队时，中后场的个人能力差距可能被放大。预计小组赛出线有一定希望，但淘汰赛阶段将面临严峻考验，不宜高估其走得更远的能力。",
+   starters:"Dayne St. Clair/Alphonso Davies/Jonathan David/Cyle Larin/Stephen Eustáquio/Ismaël Koné"},
+  {id:"CZE",name:"Czechia",cn:"捷克",group:"A",rank:36,
+   opinion:"捷克队以务实稳健的风格著称，Tomáš Souček和Patrik Schick构成了一前一后的核心轴线。Schick在勒沃库森延续了欧洲杯时期的出色状态，Souček在西汉姆联是中场屏障。球队整体战术纪律性强，定位球进攻颇具威胁。短板在于边路创造力和阵容深度，一旦核心球员状态不佳或遭遇伤病，替代方案有限。小组赛面对墨西哥和加拿大两个东道主压力不小，但凭借欧战经验有望争夺出线名额。",
+   starters:"Matěj Kovář/Tomáš Souček/Patrik Schick/Adam Hložek/Vladimír Coufal/Ladislav Krejčí"},
+  {id:"RSA",name:"South Africa",cn:"南非",group:"A",rank:57,
+   opinion:"南非队是非洲足坛的传统力量，但近年来整体竞争力有所下滑。门将Ronwen Williams在非洲俱乐部层面表现优异，Lyle Foster效力于英冠伯恩利，是锋线的主要依靠。球队优势在于身体素质出色、奔跑能力强，但技战术层面的组织性和创造力略显不足。小组赛面对两个东道主以及捷克队，出线难度较大。若能发挥出非洲球队特有的激情和韧性，或许能制造一些惊喜。",
+   starters:"Ronwen Williams/Lyle Foster/Themba Zwane/Teboho Mokoena/Oswin Appollis/Khuliso Mudau"},
+  {id:"SUI",name:"Switzerland",cn:"瑞士",group:"B",rank:12,
+   opinion:"瑞士队是大赛中不可忽视的硬骨头，连续多届大赛均能小组出线。门将Gregor Kobel在多特蒙德成长为世界级门将，Manuel Akanji在国际米兰稳如磐石，中场核心Granit Xhaka经验丰富。球队战术体系成熟，防守组织严密，反击转换迅速。弱点在于锋线终结能力——Breel Embolo状态起伏较大。预计小组出线问题不大，淘汰赛能否走得更远取决于进攻端的效率。",
+   starters:"Gregor Kobel/Manuel Akanji/Granit Xhaka/Breel Embolo/Dan Ndoye/Ricardo Rodriguez"},
+  {id:"BIH",name:"Bosnia-Herzegovina",cn:"波黑",group:"B",rank:68,
+   opinion:"波黑队时隔多年重返世界杯舞台，老将Edin Džeko仍是球队的精神领袖和战术支点，尽管年事已高但经验无可替代。Ermedin Demirović在斯图加特表现亮眼，为球队带来了新的进攻活力。中场方面Sead Kolašinac转型中卫后依然稳健。球队整体实力处于欧洲中下游，小组赛面对瑞士和英格兰将非常困难，但面对卡塔尔有一战之力。目标应该是争取队史世界杯首胜。",
+   starters:"Nikola Vasilj/Edin Džeko/Ermedin Demirović/Sead Kolašinac/Amar Dedić/Benjamin Tahirović"},
+  {id:"QAT",name:"Qatar",cn:"卡塔尔",group:"B",rank:44,
+   opinion:"卡塔尔作为上届世界杯的东道主，积累了一定的大赛经验，但整体实力与欧美球队仍有明显差距。Akram Afif和Almoez Ali是球队的进攻双核，两人长期在卡塔尔联赛配合默契。但卡塔尔国内联赛的竞技水平有限，球员缺乏在高强度欧洲联赛中的锻炼。小组赛中面对英格兰和瑞士几乎没有胜算，对阵波黑或许能争取积分。预计难以小组出线，但球队的控球风格可能会让比赛不至于一边倒。",
+   starters:"Meshaal Barsham/Akram Afif/Almoez Ali/Abdulaziz Hatem/Karim Boudiaf/Boualem Khoukhi"},
+  {id:"ENG",name:"England",cn:"英格兰",group:"B",rank:5,
+   opinion:"英格兰目前处于黄金一代的巅峰期，各条线人才济济且年龄结构合理。Jude Bellingham已是金球奖级别的中场核心，Harry Kane在拜仁保持着顶级射手的数据，Bukayo Saka和Declan Rice为阿森纳提供了稳定的国家队输出。后防线同样储备充足，John Stones和Marc Guéhi的中卫组合兼具出球和防守能力。球队最大优势是板凳深度——几乎每个位置都有两名高水平球员竞争。如果战术安排得当且关键比赛心态不崩盘，英格兰完全具备夺冠实力。主要风险在于大赛淘汰赛阶段的心理韧性，以及面对顶级传控球队时中场控制力的考验。",
+   starters:"Jordan Pickford/Harry Kane/Jude Bellingham/Bukayo Saka/Declan Rice/John Stones"},
+  {id:"BRA",name:"Brazil",cn:"巴西",group:"C",rank:4,
+   opinion:"巴西队的名气永远大于其近年来的实际战力，这是必须理性认识的关键问题。Vinícius Júnior和Raphinha确实是一流的边路攻击手，但中锋位置Endrick尚显稚嫩，缺乏在顶级赛事中持续输出的证明。中场Bruno Guimarães和Casemiro的组合拦截能力出色但创造力有限，Neymar回归桑托斯后状态存疑。后防线Marquinhos和Gabriel Magalhães个体能力优秀但整体协同偶有疏漏。巴西的最大隐患在于：一旦遇到战术纪律性强的欧洲球队，往往陷入个人单打而破解不了体系防守。夺冠概率不宜高估，四强是合理上限。",
+   starters:"Alisson/Vinícius Júnior/Neymar/Endrick/Bruno Guimarães/Raphinha"},
+  {id:"MAR",name:"Morocco",cn:"摩洛哥",group:"C",rank:13,
+   opinion:"摩洛哥在2022年卡塔尔世界杯杀入四强创造了非洲足球历史，2026年他们带着更高的期待重返世界杯。Achraf Hakimi和Brahim Díaz是两条边路的顶级配置，Sofyan Amrabat在中场的拦截覆盖能力依旧出色。球队的防守反击体系非常成熟，曾在2022年成功限制住葡萄牙、西班牙等强队。核心挑战在于：四年过去后核心阵容有所老化，且对手会更加重视和研究他们的战术套路。预计小组出线不成问题，但重现四强奇迹的难度极大。",
+   starters:"Yassine Bounou/Achraf Hakimi/Brahim Díaz/Sofyan Amrabat/Noussair Mazraoui/Ayoub El Kaabi"},
+  {id:"HAI",name:"Haiti",cn:"海地",group:"C",rank:86,
+   opinion:"海地队能够晋级世界杯正赛本身就是一个值得尊重的成就。球队阵容以在欧洲二级联赛效力的球员为主，Jean-Ricner Bellegarde在狼队是少数有英超经验的球员。面对巴西和摩洛哥这样的强队，海地几乎没有招架之力，但他们顽强的比赛态度和身体对抗能力可能会给对手制造一些麻烦。目标应该是享受世界杯舞台、争取进球、积累经验，为未来中北美足球的发展打下基础。",
+   starters:"Johny Placide/Frantzdy Pierrot/Duckens Nazon/Jean-Ricner Bellegarde/Ricardo Adé/Danley Jean Jacques"},
+  {id:"SCO",name:"Scotland",cn:"苏格兰",group:"C",rank:28,
+   opinion:"苏格兰队以顽强的团队精神和务实的长传冲吊打法著称。Scott McTominay在那不勒斯展现出了进攻中场的得分能力，Andy Robertson和Kieran Tierney组成的左路防线兼具经验和斗志。球队在预选赛中表现稳定，面对强队时防守紧凑、面对弱队时能够拿分。但苏格兰的短板也很明显——技术细腻程度不足，在对阵控球能力强的球队时控球率往往严重落后。小组赛面对巴西难度极大，但争夺小组第二完全有机会。",
+   starters:"Angus Gunn/Scott McTominay/Andy Robertson/Kieran Tierney/John McGinn/Billy Gilmour"},
+  {id:"USA",name:"USA",cn:"美国",group:"D",rank:16,
+   opinion:"美国队绝大多数主力球员效力于欧洲五大联赛，Christian Pulisic在AC米兰持续证明自己的世界级水准，Weston McKennie在尤文图斯的多位置适应能力也是宝贵资产。作为联合东道主，主场作战将极大提升球队战斗力。球队年轻且充满活力，高位逼抢和快速转换是他们的标志性打法。但后防线相对而言是薄弱环节，Tim Ream年龄偏大、Chris Richards仍需大赛检验。预计小组出线是基本目标，淘汰赛能否突破取决于防守端的稳定性。走得太远不太现实，但八强并非不可触及。",
+   starters:"Matt Turner/Christian Pulisic/Weston McKennie/Folarin Balogun/Tim Weah/Antonee Robinson"},
+  {id:"TUR",name:"Türkiye",cn:"土耳其",group:"D",rank:26,
+   opinion:"土耳其队的最大看点是两位天才少年——Arda Güler在皇马有着令人惊艳的技术天赋，Kenan Yıldız在尤文图斯同样崭露头角。Hakan Çalhanoğlu是国际米兰的中场节拍器，定位球功夫世界一流。土耳其足球的特点是情绪化——状态好时能击败任何对手，状态差时可能输给任何对手。后防线在失去顶级球员后整体质量有所下滑。小组赛与美国队和巴拉圭的较量将决定出线命运，球队上限不低但下限也不高。",
+   starters:"Mert Günok/Arda Güler/Kenan Yıldız/Hakan Çalhanoğlu/Ferdi Kadıoğlu/Orkun Kökçü"},
+  {id:"AUS",name:"Australia",cn:"澳大利亚",group:"D",rank:24,
+   opinion:"澳大利亚在加入亚足联后稳定成为世界杯常客，球队风格硬朗、身体对抗出色、空中球优势明显。Mat Ryan是长期稳定的门将选择，Harry Souttar在莱斯特城的身高优势（1.98m）在定位球攻防中至关重要。但澳大利亚的技战术上限有限，在面对技术型球队时中场的传控能力不足。小组赛签运尚可，与美国和土耳其的交锋将决定能否再次小组出线。预计出线需要一些运气。",
+   starters:"Mat Ryan/Harry Souttar/Mohamed Toure/Jackson Irvine/Nestory Irankunda/Ajdin Hrustic"},
+  {id:"PAR",name:"Paraguay",cn:"巴拉圭",group:"D",rank:48,
+   opinion:"巴拉圭是南美足坛的传统硬骨头，以铁血防守和顽强斗志闻名。Miguel Almirón在亚特兰大联保持着不错的竞技状态，Julio Enciso在斯特拉斯堡逐渐兑现天赋。但球队的进攻创造力一直是大问题——过去十场比赛中场均进球数偏低。在南美预选赛中表现平平，依靠稳固的防守拿到了世界杯门票。小组赛突围难度较大，但巴拉圭式的防守反击可能会让任何对手感到头疼。",
+   starters:"Roberto Junior Fernandez/Miguel Almirón/Julio Enciso/Antonio Sanabria/Diego Gómez/Gustavo Gómez"},
+  {id:"ESP",name:"Spain",cn:"西班牙",group:"E",rank:3,
+   opinion:"西班牙目前处于又一个黄金周期，年轻天才与经验老将完美融合。Lamine Yamal已是世界足坛最具爆破力的边锋之一，Pedri和Gavi构成了巴塞罗那体系下打磨出的中场双核，Rodri作为金球级别的后腰为球队提供了无可替代的战术支点。三条线几乎找不到明显短板——门将Unai Simón稳定、中卫Cubarsí成长迅速、锋线Nico Williams速度惊人。如果非要找弱点，中锋位置Dani Olmo并非传统九号，面对密集防守时禁区内的支点作用有限。但整体而言，西班牙是本届世界杯夺冠最大热门之一。",
+   starters:"Unai Simón/Lamine Yamal/Pedri/Rodri/Gavi/Nico Williams"},
+  {id:"GER",name:"Germany",cn:"德国",group:"E",rank:11,
+   opinion:"德国队以拜仁慕尼黑为建队框架，战术默契度有天然优势。Florian Wirtz和Jamal Musiala是当今足坛最令人期待的两名年轻攻击型中场，两人的创造力将决定德国队的进攻上限。Joshua Kimmich和Antonio Rüdiger为球队提供了中后场的领导力和硬度。但客观而言，德国队没有哪条线真正达到世界第一的水平——锋线Kai Havertz终结能力不够稳定，边路Leroy Sané状态起伏较大。球队整体实力位居世界前八，但夺冠需要突破西班牙和法国等强队的封锁。预计四强是现实目标。",
+   starters:"Manuel Neuer/Florian Wirtz/Jamal Musiala/Kai Havertz/Joshua Kimmich/Antonio Rüdiger"},
+  {id:"ECU",name:"Ecuador",cn:"厄瓜多尔",group:"E",rank:30,
+   opinion:"厄瓜多尔的核心竞争力在于中场——Moisés Caicedo在切尔西已是英超顶级后腰，Piero Hincapié在阿森纳后防线表现出色。球队在南美预选赛中凭借基多高原主场优势积累了足够积分，但到了中立场地这种优势不复存在。Kendry Páez是值得关注的天才少年，但年仅19岁的他在世界杯舞台上能发挥多少有待观察。小组赛与西班牙和德国同组签运极差，出线希望渺茫，但Caicedo和Hincapié的个人表现值得关注。",
+   starters:"Hernán Galíndez/Moisés Caicedo/Piero Hincapié/Enner Valencia/Kendry Páez/Pervis Estupiñán"},
+  {id:"CIV",name:"Ivory Coast",cn:"科特迪瓦",group:"E",rank:33,
+   opinion:"科特迪瓦近年来完成了一次成功的阵容更新换代，Amad Diallo在曼联逐渐兑现天赋，Simon Adingra在摩纳哥展现出出色的边路突破能力。Franck Kessie在中场提供了攻守平衡的保障。球队的进攻端速度极快、反击犀利，在非洲区预选赛中表现强势。但后防线在面对高压时偶尔会出现注意力不集中的情况。小组赛与西班牙、德国两大豪强同组极为不利，但科特迪瓦完全有能力扮演搅局者角色。",
+   starters:"Yahia Fofana/Amad Diallo/Franck Kessie/Simon Adingra/Evann Guessand/Seko Fofana"},
+  {id:"CUW",name:"Curaçao",cn:"库拉索",group:"E",rank:91,
+   opinion:"库拉索是本届世界杯最大的黑马故事之一——一个人口不到20万的加勒比海岛国首次闯入世界杯决赛圈。球队阵容中有多名在荷兰联赛体系下成长的球员，Juninho Bacuna和Tahith Chong在英冠水平联赛效力。世界杯对他们来说本身就是一个奇迹般的成就，面对西班牙、德国这样的顶级球队，积累经验、享受比赛是最现实的目标。任何一粒进球都将是这个岛国的历史性时刻。",
+   starters:"Eloy Room/Juninho Bacuna/Tahith Chong/Jürgen Locadia/Riechedly Bazoer/Armando Obispo"},
+  {id:"ARG",name:"Argentina",cn:"阿根廷",group:"F",rank:1,
+   opinion:"阿根廷作为上届世界杯冠军，其夺冠过程确实存在一定争议——尤其是在淘汰赛阶段的一些判罚引发了广泛讨论。客观评估如今这支阿根廷的实力：Lionel Messi依然是球队的灵魂，但年龄是不可回避的因素，他已无法像巅峰期那样持续输出90分钟的高强度比赛。Lautaro Martínez在国际米兰状态稳定，Enzo Fernández和Alexis Mac Allister在中场形成了不错的化学反应。但球队整体阵容老化问题严重——Nicolás Otamendi、Ángel Di María等人均已过了巅峰期。阿根廷并非传统意义上的顶级强队，而是一支战术执行力强、斗志旺盛的普通强队。卫冕之路将极其艰难，八强是合理预期，四强需要超凡发挥。",
+   starters:"Emiliano Martínez/Lionel Messi/Lautaro Martínez/Enzo Fernández/Alexis Mac Allister/Cristian Romero"},
+  {id:"NED",name:"Netherlands",cn:"荷兰",group:"F",rank:7,
+   opinion:"荷兰队拥有一条令人生畏的顶级后防线——Virgil van Dijk在利物浦依旧不可撼动，Jurrien Timber和Nathan Aké分别在阿森纳和曼城证明了实力，Denzel Dumfries在右路的冲击力也是一大武器。中场方面Frenkie de Jong和Ryan Gravenberch的技术能力出色，Tijjani Reijnders在曼城逐步成长。荷兰的短板在锋线——Cody Gakpo虽然努力但终结效率不够稳定，Justin Kluivert在伯恩茅斯的数据距离顶级前锋尚有距离。如果锋线能在世界杯期间找到最佳状态，荷兰完全有能力争夺冠军。大概率至少进入八强。",
+   starters:"Bart Verbruggen/Virgil van Dijk/Frenkie de Jong/Cody Gakpo/Denzel Dumfries/Jurrien Timber"},
+  {id:"SWE",name:"Sweden",cn:"瑞典",group:"F",rank:27,
+   opinion:"瑞典队拥有本届世界杯最令人羡慕的锋线组合之一——Alexander Isak在利物浦正值巅峰，Viktor Gyökeres在阿森纳也证明了自己的得分能力。但中场创造力相对不足，Lucas Bergvall在热刺虽有天赋但大赛经验欠缺。后防线Isak Hien在亚特兰大表现稳定，但整体防守体系在失去Zlatan后缺乏领袖气质。瑞典的最大不确定性在于——这支球队能在某一场比赛中击败任何对手，但也可能在看似轻松的比赛中翻车。小组出线有望，但更远则有难度。",
+   starters:"Viktor Johansson/Alexander Isak/Viktor Gyökeres/Anthony Elanga/Lucas Bergvall/Isak Hien"},
+  {id:"TUN",name:"Tunisia",cn:"突尼斯",group:"F",rank:35,
+   opinion:"突尼斯队在非洲区预选赛中表现稳健，Ellyes Skhiri在法兰克福是德甲顶级防守中场，Hannibal在伯恩利逐渐找到了比赛节奏。球队以防守反击为主，战术纪律性强。但进攻端缺乏真正的爆点——没有能在关键时刻改变比赛的个人能力超群的球员。小组赛面对阿根廷和荷兰两支强队，出线形势极为严峻。对阵瑞典的比赛可能是唯一有机会争取积分的较量。",
+   starters:"Aymen Dahman/Ellyes Skhiri/Hannibal/Elias Achouri/Montassar Talbi/Ismaël Gharbi"},
+  {id:"BEL",name:"Belgium",cn:"比利时",group:"G",rank:10,
+   opinion:"比利时黄金一代已经进入黄昏期，但Kevin de Bruyne依然是为数不多的世界级中场大师，他在那不勒斯延续着高水平的传球和组织。Romelu Lukaku虽然被质疑但国家队进球数据无可争议，Jérémy Doku在曼城的边路爆破能力逐渐成熟。门将Thibaut Courtois回归后防稳定性大幅提升。比利时的核心问题是：黄金一代的老化速度是否超过了新人的成长速度？中场创造力过于依赖De Bruyne一人，缺乏B计划。预计进入淘汰赛是大概率事件，但八强以上需要超常发挥。",
+   starters:"Thibaut Courtois/Kevin de Bruyne/Romelu Lukaku/Jérémy Doku/Leandro Trossard/Amadou Onana"},
+  {id:"EGY",name:"Egypt",cn:"埃及",group:"G",rank:31,
+   opinion:"埃及队的核心毫无疑问是Mohamed Salah——只要他在场上，埃及就有创造奇迹的可能。Omar Marmoush在曼城逐渐适应了英超节奏，为球队增添了第二个可靠的攻击点。但埃及的整体阵容深度不足，大部分球员来自埃及国内联赛，国际大赛经验有限。后防线在面对世界级攻击手时可能暴露出速度和技术的差距。小组赛出线需要Salah的超神发挥和对阵比利时之外的比赛拿满积分。",
+   starters:"Mohamed El Shenawy/Mohamed Salah/Omar Marmoush/Mahmoud Trézéguet/Mohamed Abdelmonem/Marwan Attia"},
+  {id:"IRN",name:"Iran",cn:"伊朗",group:"G",rank:22,
+   opinion:"伊朗队在亚洲区展现了统治力，Mehdi Taremi在奥林匹亚科斯继续着稳定的进球输出，Sardar Azmoun虽已过了最巅峰期但依然是对手不可忽视的威胁。伊朗的防守组织严密、身体对抗出色、定位球是重要得分手段。主要短板在于——球队的技战术风格偏保守，面对传控能力强的欧洲球队时往往全场被动。小组赛与比利时和埃及的较量中，身体对抗将是伊朗的最大武器。出线有一定可能但需要把握住关键比赛。",
+   starters:"Alireza Beiranvand/Mehdi Taremi/Saman Ghoddos/Alireza Jahanbakhsh/Saeid Ezatolahi/Hossein Kanaani"},
+  {id:"NZL",name:"New Zealand",cn:"新西兰",group:"G",rank:54,
+   opinion:"新西兰队以Chris Wood为核心——这位在诺丁汉森林效力的高中锋在英超赛场上证明了自己的头球能力。球队的风格非常直接：长传找Wood、利用定位球制造威胁、全员防守压缩空间。但技术层面的缺陷在大洋洲区预选赛中可能被掩盖，到了世界杯正赛面对比利时这样的技术流球队会暴露得非常明显。世界杯对新西兰来说更多是一次宝贵的展示机会。小组赛争取一场平局或一粒进球就是成功。",
+   starters:"Max Crocombe/Chris Wood/Sarpreet Singh/Marko Stamenić/Matthew Garbett/Michael Boxall"},
+  {id:"JPN",name:"Japan",cn:"日本",group:"H",rank:18,
+   opinion:"日本队近年来进步神速，大量球员在欧洲顶级联赛效力。Takefusa Kubo在皇家社会是绝对核心，Kaoru Mitoma（虽然因伤病原因本名单未列入首发但仍是日本重要球员）的突破能力世界一流。Wataru Endō在利物浦证明了自己是中场不可替代的防守屏障。日本足球最大的优势在于战术执行力和整体性——森保一的球队在面对强队时能够严格执行既定战术。上届世界杯连续击败德国和西班牙绝非偶然。日本已经完全具备与世界顶级强队掰手腕的实力，八强是合理目标，四强也并非天方夜谭。",
+   starters:"Zion Suzuki/Takefusa Kubo/Wataru Endō/Daichi Kamada/Junya Ito/Ko Itakura"},
+  {id:"KOR",name:"South Korea",cn:"韩国",group:"H",rank:23,
+   opinion:"韩国队虽然有Son Heung-min这样的世界级球星坐镇，但整体实力不宜高估。Kim Min-jae在拜仁慕尼黑是亚洲最佳后卫之一，Lee Kang-in在巴黎圣日耳曼的表现也值得肯定。但韩国队的问题是过于依赖核心球员的个人能力——当Son Heung-min被针对性限制时，球队的进攻效率大幅下降。中后场除了Kim Min-jae外，其他球员在面对高强度逼抢时出球能力有限。韩国在亚洲区预选赛中的表现并不令人信服，多场比赛依靠运气和裁判因素拿分。预计小组出线存在一定可能，但不宜高估其淘汰赛前景。",
+   starters:"Jo Hyeon-woo/Son Heung-min/Kim Min-jae/Lee Kang-in/Hwang Hee-chan/Hwang In-beom"},
+  {id:"KSA",name:"Saudi Arabia",cn:"沙特阿拉伯",group:"H",rank:53,
+   opinion:"沙特阿拉伯在2022年世界杯首战击败阿根廷创造了赛事最大冷门之一，但客观评估其整体实力——大部分球员来自沙特国内联赛，虽然联赛近年来投入巨资引进外援提升了竞技水平，但在世界杯舞台上仍显不足。Salem Al Dawsari在2022年的那记世界波令人难忘，但无法每场都依赖这种灵光一现。沙特队的控球能力有所提升但防守转换速度偏慢。小组赛与日本和韩国两支亚洲强队同组，出线形势不容乐观。",
+   starters:"Mohammed Al Owais/Salem Al Dawsari/Firas Al Buraikan/Mohamed Kanno/Saud Abdulhamid/Hassan Tambakti"},
+  {id:"CPV",name:"Cape Verde",cn:"佛得角",group:"H",rank:65,
+   opinion:"佛得角是又一个首次或时隔多年重返世界杯的非洲国家，球队以葡萄牙联赛体系培养的球员为主。Logan Costa在比利亚雷亚尔逐渐建立起声望，Jamiro Monteiro在中场具有一定的组织能力。佛得角足球的特点是技术风格偏葡萄牙化——注重地面传控而非传统的非洲力量型打法。但在世界杯这个级别的赛事中，面对日本和韩国的技术流打法，佛得角很难占据上风。争取在世界杯赛场上留下自己的印记是现实目标。",
+   starters:"Vozinha/Logan Costa/Jamiro Monteiro/Ryan Mendes/Jovane Cabral/Gilson Tavares"},
+  {id:"FRA",name:"France",cn:"法国",group:"I",rank:2,
+   opinion:"法国队的阵容星光熠熠令人目眩，Kylian Mbappé是当今足坛最具决定性的球员，在皇马延续着恐怖的个人数据。但必须冷静看待——法国队的中场存在老化问题，N'Golo Kanté虽然依旧努力但年龄不饶人，Aurélien Tchouaméni的成长速度未达预期。名气过大的球队往往背负过重的期望，这在过去几届大赛中已经有迹可循。Ousmane Dembélé状态好的时候无法阻挡但稳定性不足。整体实力毫无疑问是世界前三，但在高强度淘汰赛中，法国队并没有碾压所有对手的绝对统治力。夺冠热门但绝非稳操胜券。",
+   starters:"Mike Maignan/Kylian Mbappé/Ousmane Dembélé/Marcus Thuram/Aurélien Tchouaméni/William Saliba"},
+  {id:"SEN",name:"Senegal",cn:"塞内加尔",group:"I",rank:17,
+   opinion:"塞内加尔是非洲区最强的球队之一，阵容深度在非洲首屈一指。Nicolas Jackson在切尔西/拜仁已经证明了自己的得分能力，Sadio Mané虽然转战沙特联赛但国家队层面依然是精神领袖。Pape Matar Sarr在热刺的成长令人瞩目——他兼具防守硬度与向前出球的能力。后防线Kalidou Koulibaly经验丰富但移动速度有所下降，Ismail Jakobs在边路提供了一定的进攻支持。塞内加尔有实力与法国队一较高下，小组出线后可能成为淘汰赛的黑马。",
+   starters:"Edouard Mendy/Nicolas Jackson/Sadio Mané/Pape Matar Sarr/Ismaila Sarr/Kalidou Koulibaly"},
+  {id:"NOR",name:"Norway",cn:"挪威",group:"I",rank:19,
+   opinion:"Erling Haaland的存在让挪威自动成为任何对手都不敢轻视的球队——他在曼城的进球效率堪称恐怖，只要在禁区内拿球就有得分可能。Martin Ødegaard是阿森纳的队长和中场大脑，两人的连线是挪威进攻的核心模式。但挪威的问题在于——除Haaland和Ødegaard之外的整体阵容实力有限，尤其是在后防线上缺乏顶级联赛的稳定经验。一旦Haaland被对手成功限制，挪威的进攻威胁将大幅削弱。小组赛与法国和塞内加尔同组签运不佳，出线需要超水平发挥。",
+   starters:"Ørjan Nyland/Erling Haaland/Martin Ødegaard/Antonio Nusa/Oscar Bobb/Sander Berge"},
+  {id:"IRQ",name:"Iraq",cn:"伊拉克",group:"I",rank:58,
+   opinion:"伊拉克足球近年来在亚洲区预选赛中展现了不俗的竞争力，Aymen Hussein是球队的头号射手且得分效率不错。Zidane Iqbal（曾效力曼联青训）在乌得勒支逐渐成长。但伊拉克的整体实力与世界杯正赛球队之间仍有明显差距，大部分球员效力于亚洲或中东北非联赛。小组赛面对法国和挪威这样的欧洲劲旅，伊拉克很难有所作为，但球队的战斗精神和对比赛的投入度值得尊重。",
+   starters:"Jalal Hassan/Aymen Hussein/Zidane Iqbal/Ali Jassim/Youssef Amyn/Amir Al-Ammari"},
+  {id:"POR",name:"Portugal",cn:"葡萄牙",group:"J",rank:8,
+   opinion:"葡萄牙的后防线堪称世界一流——Rúben Dias在曼城是防线指挥官，Gonçalo Inácio在里斯本竞技成长迅速，João Cancelo和Nuno Mendes的双边卫配置攻守兼备。中场方面Vitinha和Bruno Fernandes提供了创造力与组织力，João Neves是值得关注的新星。但锋线是葡萄牙相对薄弱的环节——Cristiano Ronaldo虽然仍能进球但已无法提供巅峰时期的全面贡献，Rafael Leão在AC米兰状态起伏较大。葡萄牙的优势在于阵容深度惊人——替补席上有Bernardo Silva、João Félix等高水平球员。如果锋线状态调整到位，葡萄牙完全具备进入四强甚至决赛的实力。",
+   starters:"Diogo Costa/Cristiano Ronaldo/Bruno Fernandes/Rafael Leão/Rúben Dias/Vitinha"},
+  {id:"ALG",name:"Algeria",cn:"阿尔及利亚",group:"J",rank:37,
+   opinion:"阿尔及利亚拥有多名在欧洲顶级联赛效力的球员——Riyad Mahrez虽然转战沙特但技术能力依旧出色，Rayan Aït-Nouri在曼城是左路的重要选择，Amine Gouiri在马赛展现了出色的得分嗅觉。Houssem Aouar在沙特联赛找回状态后重返国家队。球队在非洲区预选赛中表现强势，进攻端多样化是最大优势。但防守端的组织性和纪律性是隐患，如果对手能够高强度逼抢，后场出球可能出现失误。小组赛有机会争夺出线名额。",
+   starters:"Luca Zidane/Riyad Mahrez/Amine Gouiri/Rayan Aït-Nouri/Houssem Aouar/Farès Chaïbi"},
+  {id:"AUT",name:"Austria",cn:"奥地利",group:"J",rank:25,
+   opinion:"奥地利在Ralf Rangnick的执教下形成了一套高强度压迫和快速转换的打法。David Alaba在皇马虽然年龄增长但依然是后防领袖，Marcel Sabitzer在多特蒙德展现了全能中场的价值，Konrad Laimer在拜仁是可靠的中场屏障。奥地利不是一支以个人能力见长的球队，但整体战术执行力和团队凝聚力非常出色。在预选赛中曾给多支强队制造麻烦。小组赛与葡萄牙同组签运一般，但争夺小组第二完全有希望。",
+   starters:"Patrick Pentz/David Alaba/Marcel Sabitzer/Konrad Laimer/Christoph Baumgartner/Marko Arnautović"},
+  {id:"JOR",name:"Jordan",cn:"约旦",group:"J",rank:64,
+   opinion:"约旦队在2024年亚洲杯上创造了历史闯入决赛，为这次世界杯征程积累了信心。Mousa Al-Tamari作为在雷恩效力的边锋是球队的进攻核心，他的速度和盘带能力在亚洲层面颇具威胁。但约旦整体阵容以亚洲联赛球员为主，在世界杯级别的对抗中将面临严峻考验。小组赛与葡萄牙同组，出线希望渺茫，但对阵奥地利并非完全没有一战之力。球队的精神品质和韧性是最大资产。",
+   starters:"Yazeed Abulaila/Mousa Al-Tamari/Mahmoud Al-Mardi/Ali Olwan/Noor Al-Rawabdeh/Abdallah Nasib"},
+  {id:"COL",name:"Colombia",cn:"哥伦比亚",group:"K",rank:14,
+   opinion:"哥伦比亚在2024年美洲杯上表现出色杀入决赛，Luis Díaz在利物浦/拜仁慕尼黑是世界级左边锋，James Rodríguez依然是球队的创造力来源。Jefferson Lerma和Richard Ríos在中场提供了硬度保障。哥伦比亚的特点是进攻端速度快、反击犀利、定位球战术丰富。但后防线在面对顶级攻击手时偶尔会出现注意力不集中的问题。小组赛签运不错，出线是基本目标。如果状态延续美洲杯时期，进入八强完全有可能。",
+   starters:"Camilo Vargas/Luis Díaz/James Rodríguez/Jhon Córdoba/Daniel Muñoz/Davinson Sánchez"},
+  {id:"UZB",name:"Uzbekistan",cn:"乌兹别克斯坦",group:"K",rank:55,
+   opinion:"乌兹别克斯坦是亚洲足坛崛起的新兴力量——Abdukodir Khusanov在曼城效力的事实本身就说明了这支球队的天赋上限。Abbosbek Fayzullaev在伊斯坦布尔巴萨克赛尔展现了出色的技术能力，Eldor Shomurodov在意甲和土超都有过不错的进球记录。乌兹别克斯坦首次参加世界杯，缺乏大赛经验是最大障碍，但球队年轻且充满活力，技术风格偏欧化。在本小组中有机会与哥伦比亚争夺出线名额。",
+   starters:"Utkir Yusupov/Abdukodir Khusanov/Eldor Shomurodov/Abbosbek Fayzullaev/Jaloliddin Masharipov/Oston Urunov"},
+  {id:"COD",name:"Congo DR",cn:"刚果民主共和国",group:"K",rank:61,
+   opinion:"刚果民主共和国拥有多名在欧洲主流联赛效力的球员——Yoane Wissa在纽卡斯尔是重要的攻击点，Aaron Wan-Bissaka（代表刚果出战）提供了英超级别的防守质量。Chancel Mbemba是后防领袖。但球队的战术体系相对松散，在面对纪律性强的对手时往往因个人失误付出代价。非洲区预选赛表现尚可但并非统治级。小组赛有一定竞争力但出线需要把握住关键比赛中的机会。",
+   starters:"Lionel Mpasi/Yoane Wissa/Chancel Mbemba/Cédric Bakambu/Aaron Wan-Bissaka/Théo Bongonda"},
+  {id:"CRO",name:"Croatia",cn:"克罗地亚",group:"L",rank:9,
+   opinion:"克罗地亚的黄金一代已进入暮年，但Luka Modrić在AC米兰依然展现出大师级的中场控制力——他的比赛阅读能力和传球精度仍是世界顶尖。Joško Gvardiol在曼城成长为世界最佳中卫之一，Mateo Kovačić同样在曼城提供了稳定的中场轮换。克罗地亚最大的问题在于阵容更新换代——Modrić之后的中场创造力来源不够明确，锋线也缺乏一个稳定的高效射手。但克罗地亚在大赛中的韧性和经验不可低估——上届世界杯季军、欧国联决赛常客。预计小组出线后可能走得更远。",
+   starters:"Dominik Livaković/Luka Modrić/Joško Gvardiol/Mateo Kovačić/Ante Budimir/Ivan Perišić"},
+  {id:"ITA",name:"Italy",cn:"意大利",group:"L",rank:9,
+   opinion:"意大利连续缺席两届世界杯后重返世界舞台，背负着巨大的压力和期待。Gianluigi Donnarumma在巴黎圣日耳曼依然是世界级门将，Nicolò Barella在国际米兰是中场发动机，Federico Chiesa展现出了顶级边锋的素质。意大利的防守组织能力和战术纪律性依然出色——这是刻在意大利足球基因里的特质。但进攻创造力不足是长期困扰球队的核心问题：缺乏一个能在狭小空间内撕破防线的十号位球员，也缺少一个每场比赛都能稳定输出的九号射手。预计意大利至少能小组出线，但能否突破八强取决于进攻端的发挥——防守可以带你走得远，但进攻决定你能走多远。",
+   starters:"Gianluigi Donnarumma/Nicolò Barella/Federico Chiesa/Giacomo Raspadori/Alessandro Bastoni/Giovanni Di Lorenzo"},
+  {id:"GHA",name:"Ghana",cn:"加纳",group:"L",rank:42,
+   opinion:"加纳队在非洲区预选赛中展现了顽强的斗志和出色的身体素质。Antoine Semenyo在曼城逐渐证明了自己的价值，Thomas Partey在比利亚雷亚尔依然是顶级中场屏障，Inaki Williams在毕尔巴鄂竞技的速度和冲击力是重要武器。加纳足球的传统优势在于身体素质、奔跑能力和不服输的精神。但战术层面有时过于依赖个人能力，整体配合的细腻程度不足。小组赛面对意大利和英格兰难度极大，但非洲球队在大赛中的爆发力永远值得期待。",
+   starters:"Lawrence Ati-Zigi/Antoine Semenyo/Thomas Partey/Inaki Williams/Ernest Nuamah/Mohammed Kudus"},
+  {id:"PAN",name:"Panama",cn:"巴拿马",group:"L",rank:49,
+   opinion:"巴拿马时隔多年重返世界杯，球队以中北美及加勒比海地区联赛球员为主，辅以少数在欧洲次级联赛效力的球员。Adalberto Carrasquilla是球队的中场核心和精神领袖。巴拿马的风格直接务实——身体对抗强硬、定位球是重要得分手段。但技术层面的差距在与顶级球队交锋时难以弥补。世界杯对巴拿马来说主要是一次向世界展示中北美足球进步的机会，出线希望渺茫但比赛态度值得期待。",
+   starters:"Orlando Mosquera/Adalberto Carrasquilla/Ismael Díaz/José Córdoba/Yoel Bárcenas/Aníbal Godoy"}
+];
+
+const TEAM_NAME_CN = {};
+TEAMS.forEach(t => { TEAM_NAME_CN[t.id] = t.cn; });
+
+const ROSTERS = {
+  MEX:{starters:[{pos:"GK",name:"Raúl Rangel",club:"Chivas"},{pos:"RB",name:"Jorge Sánchez",club:"PAOK"},{pos:"CB",name:"César Montes",club:"Lokomotiv Moscow"},{pos:"CB",name:"Johan Vásquez",club:"Genoa"},{pos:"LB",name:"Jesús Gallardo",club:"Toluca"},{pos:"CM",name:"Edson Álvarez",club:"Fenerbahce"},{pos:"CM",name:"Luis Chávez",club:"Dynamo Moscow"},{pos:"RW",name:"Alexis Vega",club:"Toluca"},{pos:"AM",name:"Orbelín Pineda",club:"AEK Athens"},{pos:"LW",name:"Cesar Huerta",club:"Anderlecht"},{pos:"CF",name:"Santiago Giménez",club:"AC Milan"}],subs:[{pos:"GK",name:"Guillermo Ochoa",club:"AEL Limassol"},{pos:"MF",name:"Álvaro Fidalgo",club:"Real Betis"},{pos:"FW",name:"Raúl Jiménez",club:"Fulham"},{pos:"DF",name:"Israel Reyes",club:"Club América"},{pos:"MF",name:"Obed Vargas",club:"Atletico Madrid"}]},
+  CAN:{starters:[{pos:"GK",name:"Dayne St. Clair",club:"Inter Miami"},{pos:"RB",name:"Alistair Johnston",club:"Celtic"},{pos:"CB",name:"Moïse Bombito",club:"OGC Nice"},{pos:"CB",name:"Derek Cornelius",club:"Marseille"},{pos:"LB",name:"Alphonso Davies",club:"Bayern Munich"},{pos:"CM",name:"Stephen Eustáquio",club:"FC Porto"},{pos:"CM",name:"Ismaël Koné",club:"Sassuolo"},{pos:"RW",name:"Tajon Buchanan",club:"Villarreal"},{pos:"LW",name:"Jacob Shaffelburg",club:"LAFC"},{pos:"CF",name:"Jonathan David",club:"Juventus"},{pos:"CF",name:"Cyle Larin",club:"Mallorca"}],subs:[{pos:"GK",name:"Maxime Crépeau",club:"Orlando City"},{pos:"DF",name:"Richie Laryea",club:"Toronto FC"},{pos:"MF",name:"Mathieu Choinière",club:"LAFC"},{pos:"FW",name:"Promise David",club:"Union Saint-Gilloise"}]},
+  CZE:{starters:[{pos:"GK",name:"Matěj Kovář",club:"PSV Eindhoven"},{pos:"RB",name:"Vladimír Coufal",club:"Hoffenheim"},{pos:"CB",name:"Robin Hranáč",club:"Hoffenheim"},{pos:"CB",name:"Ladislav Krejčí",club:"Wolverhampton"},{pos:"LB",name:"David Jurásek",club:"Slavia Prague"},{pos:"CM",name:"Tomáš Souček",club:"West Ham"},{pos:"CM",name:"Michal Sadílek",club:"Slavia Prague"},{pos:"RW",name:"Pavel Šulc",club:"Lyon"},{pos:"AM",name:"Lukáš Provod",club:"Slavia Prague"},{pos:"LW",name:"Adam Hložek",club:"Hoffenheim"},{pos:"CF",name:"Patrik Schick",club:"Bayer Leverkusen"}],subs:[{pos:"GK",name:"Jindřich Staněk",club:"Slavia Prague"},{pos:"DF",name:"David Zima",club:"Slavia Prague"},{pos:"FW",name:"Tomáš Chorý",club:"Slavia Prague"},{pos:"FW",name:"Jan Kuchta",club:"Sparta Prague"}]},
+  RSA:{starters:[{pos:"GK",name:"Ronwen Williams",club:"Mamelodi Sundowns"},{pos:"RB",name:"Khuliso Mudau",club:"Mamelodi Sundowns"},{pos:"CB",name:"Nkosinathi Sibisi",club:"Orlando Pirates"},{pos:"CB",name:"Aubrey Modiba",club:"Mamelodi Sundowns"},{pos:"LB",name:"Bradley Cross",club:"Kaizer Chiefs"},{pos:"CM",name:"Teboho Mokoena",club:"Mamelodi Sundowns"},{pos:"CM",name:"Sphephelo Sithole",club:"Tondela"},{pos:"RW",name:"Oswin Appollis",club:"Orlando Pirates"},{pos:"AM",name:"Themba Zwane",club:"Mamelodi Sundowns"},{pos:"LW",name:"Relebohile Mofokeng",club:"Orlando Pirates"},{pos:"CF",name:"Lyle Foster",club:"Burnley"}],subs:[{pos:"FW",name:"Evidence Makgopa",club:"Orlando Pirates"},{pos:"FW",name:"Iqraam Rayners",club:"Mamelodi Sundowns"}]},
+  SUI:{starters:[{pos:"GK",name:"Gregor Kobel",club:"Borussia Dortmund"},{pos:"RB",name:"Silvan Widmer",club:"Mainz"},{pos:"CB",name:"Manuel Akanji",club:"Inter Milan"},{pos:"CB",name:"Nico Elvedi",club:"Mönchengladbach"},{pos:"LB",name:"Ricardo Rodriguez",club:"Real Betis"},{pos:"CM",name:"Granit Xhaka",club:"Sunderland"},{pos:"CM",name:"Remo Freuler",club:"Bologna"},{pos:"RW",name:"Dan Ndoye",club:"Nottingham Forest"},{pos:"AM",name:"Fabian Rieder",club:"Augsburg"},{pos:"LW",name:"Rubén Vargas",club:"Sevilla"},{pos:"CF",name:"Breel Embolo",club:"Rennes"}],subs:[{pos:"GK",name:"Yvon Mvogo",club:"Lorient"},{pos:"MF",name:"Denis Zakaria",club:"Monaco"},{pos:"FW",name:"Noah Okafor",club:"Leeds"},{pos:"FW",name:"Zeki Amdouni",club:"Burnley"}]},
+  BIH:{starters:[{pos:"GK",name:"Nikola Vasilj",club:"FC St. Pauli"},{pos:"CB",name:"Sead Kolašinac",club:"Atalanta"},{pos:"CB",name:"Dennis Hadžikadunić",club:"Sampdoria"},{pos:"RWB",name:"Amar Dedić",club:"Benfica"},{pos:"CM",name:"Amir Hadžiahmetović",club:"Hull City"},{pos:"CM",name:"Benjamin Tahirović",club:"Bröndby"},{pos:"LWB",name:"Nidal Čelik",club:"Lens"},{pos:"CF",name:"Edin Džeko",club:"Schalke 04"},{pos:"CF",name:"Ermedin Demirović",club:"Stuttgart"}],subs:[{pos:"FW",name:"Esmir Bajraktarević",club:"PSV"},{pos:"FW",name:"Haris Tabaković",club:"Mönchengladbach"}]},
+  QAT:{starters:[{pos:"GK",name:"Meshaal Barsham",club:"Al Sadd"},{pos:"CB",name:"Boualem Khoukhi",club:"Al Sadd"},{pos:"CB",name:"Tarek Salman",club:"Al Sadd"},{pos:"CM",name:"Karim Boudiaf",club:"Al Duhail"},{pos:"CM",name:"Abdulaziz Hatem",club:"Al Rayyan"},{pos:"CF",name:"Almoez Ali",club:"Al Duhail"},{pos:"CF",name:"Akram Afif",club:"Al Sadd"}],subs:[{pos:"FW",name:"Hassan Al-Haydos",club:"Al Sadd"},{pos:"FW",name:"Mohammed Muntari",club:"Al Gharafa"}]},
+  ENG:{starters:[{pos:"GK",name:"Jordan Pickford",club:"Everton"},{pos:"RB",name:"Reece James",club:"Chelsea"},{pos:"CB",name:"John Stones",club:"Manchester City"},{pos:"CB",name:"Marc Guéhi",club:"Manchester City"},{pos:"LB",name:"Dan Burn",club:"Newcastle"},{pos:"CM",name:"Declan Rice",club:"Arsenal"},{pos:"CM",name:"Jude Bellingham",club:"Real Madrid"},{pos:"RW",name:"Bukayo Saka",club:"Arsenal"},{pos:"AM",name:"Morgan Rogers",club:"Aston Villa"},{pos:"LW",name:"Marcus Rashford",club:"Barcelona"},{pos:"CF",name:"Harry Kane",club:"Bayern Munich"}],subs:[{pos:"GK",name:"Dean Henderson",club:"Crystal Palace"},{pos:"DF",name:"Ezri Konsa",club:"Aston Villa"},{pos:"MF",name:"Kobbie Mainoo",club:"Manchester United"},{pos:"FW",name:"Ollie Watkins",club:"Aston Villa"},{pos:"FW",name:"Anthony Gordon",club:"Newcastle"}]},
+  BRA:{starters:[{pos:"GK",name:"Alisson",club:"Liverpool"},{pos:"RB",name:"Danilo",club:"Flamengo"},{pos:"CB",name:"Marquinhos",club:"PSG"},{pos:"CB",name:"Gabriel Magalhães",club:"Arsenal"},{pos:"LB",name:"Alex Sandro",club:"Flamengo"},{pos:"CM",name:"Bruno Guimarães",club:"Newcastle"},{pos:"CM",name:"Casemiro",club:"Manchester United"},{pos:"RW",name:"Raphinha",club:"Barcelona"},{pos:"AM",name:"Neymar",club:"Santos"},{pos:"LW",name:"Vinícius Júnior",club:"Real Madrid"},{pos:"CF",name:"Endrick",club:"Lyon"}],subs:[{pos:"GK",name:"Ederson",club:"Fenerbahçe"},{pos:"FW",name:"Gabriel Martinelli",club:"Arsenal"},{pos:"FW",name:"Matheus Cunha",club:"Manchester United"},{pos:"MF",name:"Lucas Paquetá",club:"Flamengo"}]},
+  ARG:{starters:[{pos:"GK",name:"Emiliano Martínez",club:"Aston Villa"},{pos:"RB",name:"Nahuel Molina",club:"Atlético Madrid"},{pos:"CB",name:"Cristian Romero",club:"Tottenham"},{pos:"CB",name:"Lisandro Martínez",club:"Manchester United"},{pos:"LB",name:"Nicolás Tagliafico",club:"Lyon"},{pos:"CM",name:"Enzo Fernández",club:"Chelsea"},{pos:"CM",name:"Alexis Mac Allister",club:"Liverpool"},{pos:"CM",name:"Rodrigo De Paul",club:"Inter Miami"},{pos:"RW",name:"Lionel Messi",club:"Inter Miami"},{pos:"CF",name:"Lautaro Martínez",club:"Inter Milan"},{pos:"LW",name:"Nicolás González",club:"Atlético Madrid"}],subs:[{pos:"GK",name:"Gerónimo Rulli",club:"Marseille"},{pos:"FW",name:"Julián Álvarez",club:"Atlético Madrid"},{pos:"FW",name:"Thiago Almada",club:"Atlético Madrid"},{pos:"MF",name:"Giovani Lo Celso",club:"Real Betis"}]},
+  ESP:{starters:[{pos:"GK",name:"Unai Simón",club:"Athletic Club"},{pos:"RB",name:"Pedro Porro",club:"Tottenham"},{pos:"CB",name:"Pau Cubarsí",club:"Barcelona"},{pos:"CB",name:"Aymeric Laporte",club:"Athletic Club"},{pos:"LB",name:"Marc Cucurella",club:"Chelsea"},{pos:"CM",name:"Rodri",club:"Manchester City"},{pos:"CM",name:"Pedri",club:"Barcelona"},{pos:"CM",name:"Gavi",club:"Barcelona"},{pos:"RW",name:"Lamine Yamal",club:"Barcelona"},{pos:"CF",name:"Dani Olmo",club:"Barcelona"},{pos:"LW",name:"Nico Williams",club:"Athletic Club"}],subs:[{pos:"GK",name:"David Raya",club:"Arsenal"},{pos:"MF",name:"Martín Zubimendi",club:"Arsenal"},{pos:"FW",name:"Ferran Torres",club:"Barcelona"},{pos:"FW",name:"Mikel Oyarzabal",club:"Real Sociedad"}]},
+};
+
+function getRoster(teamId) {
+  if(ROSTERS[teamId]) return ROSTERS[teamId];
+  const t = TEAMS.find(x=>x.id===teamId);
+  if(!t || !t.starters) return {starters:[],subs:[]};
+  const names = t.starters.split('/');
+  return {starters:names.map((n,i)=>({pos:["GK","DF","DF","DF","DF","MF","MF","MF","FW","FW","FW"][i]||"MF",name:n.trim(),club:"—"})),subs:[]};
+}
+
+// ═══════ APP LOGIC ═══════
+let s1=null,s2=null;
+const API_BASE = (window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1')?'http://localhost:3000':'';
+
+function init() {
+  const opts = TEAMS.map(t=>`<option value="${t.id}">${t.flag} ${t.cn} (${t.name}) — ${t.group}组 | 排名#${t.rank}</option>`).join('');
+  const sel1=document.getElementById('team1'),sel2=document.getElementById('team2');
+  sel1.innerHTML='<option value="">— 请选择球队 —</option>'+opts;
+  sel2.innerHTML='<option value="">— 请选择球队 —</option>'+opts;
+  sel1.addEventListener('change',function(){s1=TEAMS.find(t=>t.id===this.value)||null});
+  sel2.addEventListener('change',function(){s2=TEAMS.find(t=>t.id===this.value)||null});
+  document.getElementById('btnAnalyze').addEventListener('click',runAnalysis);
+  document.getElementById('btnRosters').addEventListener('click',showRosters);
+  document.getElementById('btnOpinions').addEventListener('click',showOpinions);
+}
+
+function setResultHeader() {
+  document.getElementById('rFlag1').textContent=s1.flag;
+  document.getElementById('rName1').textContent=s1.cn;
+  document.getElementById('rNameEn1').textContent=s1.name;
+  document.getElementById('rRank1').textContent='FIFA 排名 #'+s1.rank;
+  document.getElementById('rFlag2').textContent=s2.flag;
+  document.getElementById('rName2').textContent=s2.cn;
+  document.getElementById('rNameEn2').textContent=s2.name;
+  document.getElementById('rRank2').textContent='FIFA 排名 #'+s2.rank;
+  document.getElementById('resultPanel').style.display='block';
+}
+
+function offlineAnalysis() {
+  const rankDiff=s1.rank-s2.rank;
+  let winner=s1;
+  if(rankDiff>10)winner=s2;else if(rankDiff<-10)winner=s1;
+  const t1Adv=[],t2Adv=[];
+  if(s1.rank<=10)t1Adv.push('世界排名前十');
+  if(s2.rank<=10)t2Adv.push('世界排名前十');
+  if(rankDiff>5)t2Adv.push('排名优势明显（高'+Math.abs(rankDiff)+'位）');
+  if(rankDiff<-5)t1Adv.push('排名优势明显（高'+Math.abs(rankDiff)+'位）');
+  return [
+    '本分析基于内置数据库的球队排名 阵容数据和专业球评',
+    '',
+    s1.flag+' '+s1.cn+' FIFA排名第'+s1.rank+'位'+(t1Adv.length?' 优势 '+t1Adv.join(' '):'')+'',
+    s2.flag+' '+s2.cn+' FIFA排名第'+s2.rank+'位'+(t2Adv.length?' 优势 '+t2Adv.join(' '):'')+'',
+    '',
+    '综合实力评估 '+winner.cn+'略占上风 两队近期状态和数据表现显示这将是一场激烈的对决',
+    '',
+    '当前为离线模式 如需DeepSeek AI实时分析（含最新新闻数据）请在本机运行后端服务器后访问 http://localhost:3000'
+  ].join('\n');
+}
+
+async function runAnalysis(){
+  if(!s1||!s2)return alert('请先选择两支球队');
+  if(s1.id===s2.id)return alert('不能选择同一支球队');
+  setResultHeader();
+  document.getElementById('rosterSection').style.display='none';
+  document.getElementById('opinionBlock').style.display='none';
+  document.getElementById('analysisBlock').innerHTML='<div class="loading-overlay"><div class="spinner"></div><p class="loading-text">DeepSeek AI 正在分析中...</p></div>';
+  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth'});
+  if(!API_BASE){document.getElementById('analysisBlock').innerHTML=renderAnalysis(offlineAnalysis());return}
+  try{
+    const res=await fetch(API_BASE+'/api/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({team1:s1.cn+' ('+s1.name+')',team2:s2.cn+' ('+s2.name+')',team1Opinion:s1.opinion||'',team2Opinion:s2.opinion||'',team1Roster:s1.starters||'',team2Roster:s2.starters||'',team1Rank:s1.rank,team2Rank:s2.rank})});
+    const data=await res.json();
+    if(!data.success)throw new Error(data.error||'API 请求失败');
+    document.getElementById('analysisBlock').innerHTML=renderAnalysis(data.analysis)+(data.newsCount?'<p style="margin-top:14px;font-size:11px;color:var(--text-muted)"> 本次分析参考了'+data.newsCount+'条实时新闻</p>':'');
+  }catch(e){
+    console.error(e);
+    document.getElementById('analysisBlock').innerHTML='<div class="error-block"><p> AI 分析暂不可用</p><p>后端服务器未启动或连接失败</p><p style="font-size:12px;margin-top:8px;color:var(--gold-light)">使用离线数据分析作为备选...</p></div><div class="analysis-block" style="margin-top:12px">'+renderAnalysis(offlineAnalysis())+'</div>';
+  }
+}
+
+function renderAnalysis(text) {
+  const segments = text.split(/\s+/).filter(s=>s.trim());
+  const paragraphs=[];let current='',charCount=0;
+  for(let i=0;i<segments.length;i++){
+    const seg=segments[i];
+    if(current&&charCount+seg.length>120){paragraphs.push(current.trim());current=seg;charCount=seg.length}
+    else{current+=(current?' ':'')+seg;charCount+=seg.length+(current?1:0)}
+  }
+  if(current.trim())paragraphs.push(current.trim());
+  return paragraphs.map((p,i)=>`<p style="margin-bottom:16px;line-height:2;font-size:15px;${i?'padding-top:4px;border-top:1px solid var(--border)':''}">${p.replace(/ /g,'  ')}</p>`).join('');
+}
+
+async function showRosters() {
+  if(!s1||!s2)return alert('请先选择两支球队');
+  setResultHeader();
+  document.getElementById('analysisBlock').innerHTML='';
+  document.getElementById('opinionBlock').style.display='none';
+  const sec=document.getElementById('rosterSection');sec.style.display='block';
+  document.getElementById('rosterTabs').innerHTML=`<button class="roster-tab active" onclick="switchRoster('${s1.id}','${s2.id}','a',this)">${s1.flag} ${s1.cn} 阵容</button><button class="roster-tab" onclick="switchRoster('${s1.id}','${s2.id}','b',this)">${s2.flag} ${s2.cn} 阵容</button>`;
+  const container=document.getElementById('rosterContent');container.innerHTML='';
+  renderRosterHero(s1.id,'a');renderRosterHero(s2.id,'b');
+  document.querySelectorAll('#rosterContent > div')[1].style.display='none';
+  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth'});
+}
+
+function switchRoster(id1,id2,which,btn){
+  document.querySelectorAll('.roster-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#rosterContent > div').forEach((d,i)=>{d.style.display=(i===0&&which==='a'||i===1&&which==='b')?'block':'none'});
+}
+
+function getStarForTeam(teamId){return TEAM_STARS[teamId]||null}
+function getPlayerImage(playerName){return PLAYER_IMAGES[playerName]||''}
+function getInitials(name){const parts=name.split(' ');if(parts.length>=2)return(parts[0][0]+parts[parts.length-1][0]).toUpperCase();return name.substring(0,2).toUpperCase()}
+
+function getTeamColors(teamId){
+  const c={MEX:['#006847','#CE1126'],CAN:['#D52B1E','#FFFFFF'],CZE:['#D7141A','#11457E'],RSA:['#FDB913','#007749'],SUI:['#D52B1E','#FFFFFF'],BIH:['#001489','#FECB00'],QAT:['#8A1538','#FFFFFF'],ENG:['#FFFFFF','#CE1126'],BRA:['#FEDF00','#009B3A'],MAR:['#C1272D','#006233'],HAI:['#00209F','#D21034'],SCO:['#002D62','#FFFFFF'],USA:['#002868','#BF0A30'],TUR:['#E30A17','#FFFFFF'],AUS:['#FFCD00','#00843D'],PAR:['#D52B1E','#FFFFFF'],ESP:['#C60B1E','#FFC400'],GER:['#000000','#DD0000'],ECU:['#FFD100','#0033A0'],CIV:['#F77F00','#009E60'],CUW:['#002B7F','#F9E814'],ARG:['#75AADB','#FFFFFF'],NED:['#F36C21','#FFFFFF'],SWE:['#FECC00','#003478'],TUN:['#E70013','#FFFFFF'],BEL:['#FDDA24','#ED2939'],EGY:['#CE1126','#000000'],IRN:['#239F40','#FFFFFF'],NZL:['#000000','#FFFFFF'],JPN:['#1B1B5E','#D00C33'],KOR:['#C60C30','#003478'],KSA:['#165C30','#FFFFFF'],CPV:['#003893','#CF2027'],FRA:['#002395','#ED2939'],SEN:['#00853F','#FDEB37'],NOR:['#BA0C2F','#00205B'],IRQ:['#CE1126','#000000'],POR:['#B81715','#046A38'],ALG:['#046A38','#FFFFFF'],AUT:['#EF3340','#FFFFFF'],JOR:['#CE1126','#007A3D'],COL:['#FCD116','#003893'],UZB:['#0099B5','#FFFFFF'],COD:['#007FFF','#F7D618'],CRO:['#FF0000','#FFFFFF'],ITA:['#0066CC','#FFFFFF'],GHA:['#CE1126','#FCD116'],PAN:['#0035AD','#D60B2D']};
+  return c[teamId]||['#C8A951','#0A1628'];
+}
+
+function renderRosterHero(teamId,suffix){
+  const full=getFullRoster(teamId);
+  const r={starters:full.starters,subs:full.subs};
+  const formation=full.formation||'4-3-3';
+  const star=getStarForTeam(teamId);
+  const colors=getTeamColors(teamId);
+  const div=document.createElement('div');
+  div.id='roster-'+suffix;div.style.display=suffix==='a'?'block':'none';
+  let bgImage='';
+  if(star&&star.img)bgImage=`background-image:url('${star.img}');background-size:cover;background-position:center 15%;`;
+  const rows=buildFormationRows(r.starters,formation);
+  const pitchHTML=rows.map((row,ri)=>`<div class="formation-row" style="justify-content:${row.justify||'center'};gap:${row.gap||10}px">${row.players.map(p=>buildPlayerCard(p,colors,ri===0?'gk':'field')).join('')}</div>`).join('');
+  const starName=star?star.name:'';
+  const starClub=star?star.club:'';
+  const subCards=r.subs.length?r.subs.map(p=>buildPlayerCard(p,colors,'sub')).join(''):'<div style="color:var(--text-muted);font-size:12px;padding:10px 0">替补名单更新中</div>';
+  div.innerHTML=`
+    <div class="roster-hero" style="${bgImage}">
+      <div class="roster-hero-overlay" style="background:linear-gradient(135deg,${colors[0]}66,${colors[1]}33,var(--dark) 75%)"></div>
+      <div class="roster-hero-content">
+        <div class="star-tag"> 当家球星</div>
+        <div class="star-name">${starName}</div>
+        <div class="star-club">${starClub?'效力于 '+starClub:''}</div>
+      </div>
+    </div>
+    <div class="roster-section-label"><span> 首发阵容</span><span class="formation-badge">${formation} 阵型</span></div>
+    <div class="pitch-container"><div class="pitch-bg">${pitchHTML}</div></div>
+    <div class="roster-section-label"> 替补阵容</div>
+    <div class="roster-grid">${subCards}</div>`;
+  document.getElementById('rosterContent').appendChild(div);
+}
+
+function buildPlayerCard(p,colors,type){
+  const img=getPlayerImage(p.name);
+  const initials=getInitials(p.name);
+  const imgClass=img?'has-image':'no-image';
+  const avatarBg=img
+    ?`background-image:url('${img}');background-size:cover;background-position:center;`
+    :`background:linear-gradient(135deg,${colors[0]}dd,${colors[1]}99,#0D1B2A);`;
+  const size=type==='gk'?64:56;
+  const fontSize=type==='gk'?16:13;
+  const nameSize=type==='gk'?13:11;
+  const clubSize=type==='sub'?10:9;
+  return `<div class="player-card ${type}"><div class="player-avatar ${imgClass}" style="${avatarBg}width:${size}px;height:${size}px;font-size:${fontSize}px;">${img?'':initials}</div><div class="player-info"><div class="p-name" style="font-size:${nameSize}px;">${p.name}</div><div class="p-pos">${p.pos}</div>${p.club&&p.club!=='—'?`<div class="p-club" style="font-size:${clubSize}px;">${p.club}</div>`:''}</div></div>`;
+}
+
+function buildFormationRows(starters,formation){
+  const parts=formation.split('-').map(Number);
+  const gk=starters.filter(p=>p.pos==='GK').slice(0,1);
+  if(gk.length===0)gk.push(starters[0]);
+  const remaining=starters.filter(p=>p.pos!=='GK');
+  let idx=0;
+  const rows=[];
+  rows.push({players:gk,justify:'center',gap:0});
+  const defCount=parts[0]||4;
+  rows.push({players:remaining.slice(idx,idx+defCount),justify:'space-evenly',gap:8});
+  idx+=defCount;
+  const midCount=parts[1]||3;
+  rows.push({players:remaining.slice(idx,idx+midCount),justify:'space-evenly',gap:8});
+  idx+=midCount;
+  const fwdCount=parts[2]||3;
+  rows.push({players:remaining.slice(idx,idx+fwdCount),justify:'space-evenly',gap:8});
+  return rows;
+}
+
+async function showOpinions(){
+  if(!s1||!s2)return alert('请先选择两支球队');
+  setResultHeader();
+  document.getElementById('analysisBlock').innerHTML='';
+  document.getElementById('rosterSection').style.display='none';
+  const ob=document.getElementById('opinionBlock');
+  ob.style.display='block';
+  ob.innerHTML=`
+    <h3>个人分析与观点</h3>
+    <p><strong>${s1.flag} ${s1.cn} (${s1.name})</strong></p>
+    <p style="margin-bottom:16px">${s1.opinion||'该球队暂无个人分析记录'}</p>
+    <p><strong>${s2.flag} ${s2.cn} (${s2.name})</strong></p>
+    <p style="margin-bottom:16px">${s2.opinion||'该球队暂无个人分析记录'}</p>
+    <div id="newsContainer" style="margin-top:12px">
+      <button class="btn btn-secondary" onclick="fetchTeamNews()" style="font-size:13px;padding:10px 24px"> 搜索两队最新新闻</button>
+    </div>
+  `;
+  document.getElementById('resultPanel').scrollIntoView({behavior:'smooth'});
+}
+
+async function fetchTeamNews(){
+  const container=document.getElementById('newsContainer');
+  container.innerHTML='<div class="loading-overlay"><div class="spinner"></div><p class="loading-text">正在从谷歌新闻和必应新闻搜索实时信息...</p></div>';
+  if(!API_BASE){
+    container.innerHTML='<div class="error-block"><p> 离线模式下无法搜索实时新闻</p><p style="font-size:12px">请在本地运行后端服务器 http://localhost:3000</p></div>';
+    return;
+  }
+  try{
+    const [r1,r2]=await Promise.all([
+      fetch(API_BASE+'/api/news',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({teamCN:s1.cn,teamEN:s1.name})}),
+      fetch(API_BASE+'/api/news',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({teamCN:s2.cn,teamEN:s2.name})})
+    ]);
+    const [d1,d2]=await Promise.all([r1.json(),r2.json()]);
+    let html='';
+    if(d1.success&&d1.news.length>0){
+      html+=`<div class="news-block"><h4>${s1.flag} ${s1.cn} — 搜到 ${d1.count} 条新闻</h4>`;
+      d1.news.slice(0,15).forEach(n=>{
+        html+=`<div class="news-item"><div class="news-title">${n.title}</div><div class="news-src">${n.source||''} ${n.date||''}</div></div>`;
+      });
+      html+='</div>';
+    }
+    if(d2.success&&d2.news.length>0){
+      html+=`<div class="news-block" style="margin-top:12px"><h4>${s2.flag} ${s2.cn} — 搜到 ${d2.count} 条新闻</h4>`;
+      d2.news.slice(0,15).forEach(n=>{
+        html+=`<div class="news-item"><div class="news-title">${n.title}</div><div class="news-src">${n.source||''} ${n.date||''}</div></div>`;
+      });
+      html+='</div>';
+    }
+    if(!html)html='<p style="color:var(--text-dim);text-align:center">未搜索到新闻 请稍后重试</p>';
+    container.innerHTML=html;
+  }catch(e){
+    container.innerHTML='<div class="error-block"><p>新闻搜索失败</p><p style="font-size:12px">'+e.message+'</p></div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
