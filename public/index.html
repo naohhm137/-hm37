@@ -174,11 +174,29 @@ body::after{
 }
 .team-display:hover{border-color:var(--border-hover);transform:translateY(-2px)}
 .team-flag-wrap{
-  width:80px;height:80px;margin:0 auto 14px;border-radius:50%;
-  background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;
-  border:2px solid rgba(200,169,81,0.2);box-shadow:0 0 30px rgba(200,169,81,0.1);
+  width:88px;height:88px;margin:0 auto 14px;border-radius:50%;
+  background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;
+  border:2.5px solid rgba(200,169,81,0.25);box-shadow:0 0 35px rgba(200,169,81,0.12);
+  overflow:hidden;position:relative;transition:all var(--transition);
 }
-.team-flag-wrap .flag{font-size:48px;line-height:1}
+.team-flag-wrap::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  box-shadow:inset 0 0 40px rgba(0,0,0,0.5),inset 0 0 8px rgba(0,0,0,0.3);
+  pointer-events:none;
+}
+.team-display:hover .team-flag-wrap{
+  transform:scale(1.08);border-color:rgba(200,169,81,0.5);
+  box-shadow:0 0 50px rgba(200,169,81,0.25);
+}
+.flag-img{
+  width:100%;height:100%;background-size:cover;background-position:center;
+  background-repeat:no-repeat;border-radius:50%;
+}
+.roster-hero-flag{
+  width:60px;height:60px;border-radius:50%;background-size:cover;
+  background-position:center;border:2px solid rgba(255,255,255,0.25);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);flex-shrink:0;
+}
 .team-name{font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px}
 .team-name-en{font-size:12px;color:var(--text-muted);letter-spacing:1px}
 .team-fifa{
@@ -198,11 +216,17 @@ body::after{
   background:rgba(255,255,255,0.03);border:1px solid var(--border);
   border-radius:30px;color:var(--text-dim);cursor:pointer;
   transition:all var(--transition);font-family:inherit;letter-spacing:1px;
+  display:flex;align-items:center;gap:8px;
 }
 .roster-tab:hover{background:rgba(200,169,81,0.08);border-color:var(--border-hover);color:var(--text)}
 .roster-tab.active{
   background:linear-gradient(135deg,rgba(200,169,81,0.18),rgba(200,169,81,0.05));
   color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 20px rgba(200,169,81,0.1);
+}
+.tab-flag-img{
+  width:24px;height:24px;border-radius:50%;background-size:cover;
+  background-position:center;flex-shrink:0;
+  border:1.5px solid rgba(255,255,255,0.2);box-shadow:0 2px 6px rgba(0,0,0,0.3);
 }
 
 /* Star Player Hero Banner */
@@ -218,6 +242,17 @@ body::after{
 .roster-hero-overlay{position:absolute;inset:0;z-index:0}
 .star-tag{
   display:inline-block;padding:5px 16px;
+  background:linear-gradient(135deg,rgba(200,169,81,0.35),rgba(200,169,81,0.1));
+  border:1px solid rgba(200,169,81,0.3);border-radius:20px;
+  font-size:11px;font-weight:600;color:var(--gold-bright);letter-spacing:2px;
+  backdrop-filter:blur(10px);margin-bottom:6px;
+}
+.star-photo{
+  width:100px;height:100px;border-radius:50%;margin-top:12px;
+  background-size:cover;background-position:center;
+  border:3px solid rgba(200,169,81,0.4);
+  box-shadow:0 8px 30px rgba(0,0,0,0.5),0 0 20px rgba(200,169,81,0.15);
+}
   background:linear-gradient(135deg,rgba(200,169,81,0.3),rgba(200,169,81,0.08));
   border:1px solid rgba(200,169,81,0.4);border-radius:30px;
   font-size:10px;letter-spacing:4px;color:var(--gold-bright);
@@ -233,21 +268,23 @@ body::after{
 
 /* Pitch */
 .pitch-container{
-  background:linear-gradient(180deg,#0a5c2a 0%,#0d4a22 30%,#0a3d1a 60%,#083014 100%);
+  background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 50%,rgba(10,22,40,0.95) 100%);
   border-radius:var(--radius);padding:36px 24px;margin-bottom:12px;
   position:relative;overflow:hidden;
-  border:2px solid rgba(255,255,255,0.06);
+  border:2px solid rgba(200,169,81,0.12);
   min-height:340px;display:flex;flex-direction:column;justify-content:space-between;
-  box-shadow:inset 0 2px 60px rgba(0,0,0,0.3);
+  box-shadow:inset 0 2px 60px rgba(0,0,0,0.3),var(--shadow);
 }
 .pitch-container::before{
-  content:'';position:absolute;top:50%;left:4%;right:4%;height:1px;
-  background:rgba(255,255,255,0.1);z-index:0;
+  content:'';position:absolute;inset:0;z-index:0;opacity:0.04;
+  background-size:200px;background-position:center;background-repeat:no-repeat;
 }
 .pitch-container::after{
-  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:100px;height:100px;border:1.5px solid rgba(255,255,255,0.08);
-  border-radius:50%;z-index:0;
+  content:'';position:absolute;inset:0;z-index:0;opacity:0.06;
+  background:
+    radial-gradient(circle at 30% 40%,rgba(200,169,81,0.3) 0%,transparent 50%),
+    radial-gradient(circle at 70% 60%,rgba(30,67,154,0.3) 0%,transparent 50%),
+    radial-gradient(circle at 50% 50%,rgba(196,30,58,0.2) 0%,transparent 60%);
 }
 .pitch-bg{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;height:100%}
 .formation-row{
@@ -349,8 +386,18 @@ body::after{
 .opinion-block h3{color:var(--gold-bright);font-size:15px;letter-spacing:3px;margin-bottom:16px;font-weight:700}
 .opinion-block p{margin-bottom:10px;color:var(--text-dim);font-size:14px;line-height:1.8}
 .opinion-block strong{color:var(--text);font-size:15px;display:block;margin-bottom:6px}
+.opinion-flag{
+  width:36px;height:36px;border-radius:50%;background-size:cover;
+  background-position:center;flex-shrink:0;
+  border:2px solid rgba(200,169,81,0.25);box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
 .news-block{margin-top:16px;padding:16px;background:rgba(0,0,0,0.25);border-radius:10px;max-height:400px;overflow-y:auto}
-.news-block h4{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:10px}
+.news-block h4{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.news-flag{
+  display:inline-block;width:20px;height:20px;border-radius:50%;
+  background-size:cover;background-position:center;flex-shrink:0;
+  border:1px solid rgba(255,255,255,0.2);
+}
 .news-item{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;color:var(--text-dim);line-height:1.6}
 .news-item:last-child{border-bottom:none}
 .news-item .news-title{color:var(--text);font-weight:500}
@@ -365,6 +412,29 @@ body::after{
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{color:var(--text-dim);font-size:14px;letter-spacing:1px}
+
+/* ═══════ FLOATING PARTICLES ═══════ */
+.particles-layer{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.particle{
+  position:absolute;border-radius:50%;opacity:0;
+  animation:particleFloat 12s ease-in infinite;
+}
+.particle:nth-child(1){width:4px;height:4px;background:rgba(200,169,81,0.5);top:10%;left:15%;animation-delay:0s;animation-duration:14s}
+.particle:nth-child(2){width:3px;height:3px;background:rgba(200,169,81,0.4);top:25%;left:75%;animation-delay:1.5s;animation-duration:16s}
+.particle:nth-child(3){width:5px;height:5px;background:rgba(240,216,120,0.35);top:60%;left:20%;animation-delay:3s;animation-duration:13s}
+.particle:nth-child(4){width:3px;height:3px;background:rgba(200,169,81,0.45);top:40%;left:60%;animation-delay:5s;animation-duration:15s}
+.particle:nth-child(5){width:4px;height:4px;background:rgba(30,67,154,0.3);top:70%;left:80%;animation-delay:2s;animation-duration:18s}
+.particle:nth-child(6){width:2px;height:2px;background:rgba(240,216,120,0.5);top:15%;left:40%;animation-delay:4s;animation-duration:11s}
+.particle:nth-child(7){width:4px;height:4px;background:rgba(196,30,58,0.25);top:80%;left:10%;animation-delay:6s;animation-duration:17s}
+.particle:nth-child(8){width:3px;height:3px;background:rgba(200,169,81,0.4);top:35%;left:90%;animation-delay:7s;animation-duration:14s}
+.particle:nth-child(9){width:5px;height:5px;background:rgba(240,216,120,0.3);top:50%;left:45%;animation-delay:3.5s;animation-duration:19s}
+.particle:nth-child(10){width:2px;height:2px;background:rgba(200,169,81,0.6);top:5%;left:65%;animation-delay:8s;animation-duration:12s}
+@keyframes particleFloat{
+  0%{transform:translateY(0) translateX(0) scale(1);opacity:0}
+  10%{opacity:1}
+  50%{transform:translateY(-40px) translateX(20px) scale(1.8);opacity:0.8}
+  100%{transform:translateY(-80px) translateX(-10px) scale(0.3);opacity:0}
+}
 
 /* ═══════ ERROR ═══════ */
 .error-block{text-align:center;padding:40px;color:var(--accent)}
@@ -408,6 +478,9 @@ body::after{
 </style>
 </head>
 <body>
+<div class="particles-layer">
+  <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+</div>
 <div class="container">
 <header class="hero">
   <div class="trophy-wrap">
@@ -625,6 +698,19 @@ const TEAMS = [
 const TEAM_NAME_CN = {};
 TEAMS.forEach(t => { TEAM_NAME_CN[t.id] = t.cn; });
 
+// ═══════ FLAG CODES (ISO 3166-1 alpha-2 for flagcdn.com) ═══════
+const FLAG_CC = {
+  MEX:'mx',CAN:'ca',CZE:'cz',RSA:'za',SUI:'ch',BIH:'ba',QAT:'qa',ENG:'gb-eng',
+  BRA:'br',MAR:'ma',HAI:'ht',SCO:'gb-sct',USA:'us',TUR:'tr',AUS:'au',PAR:'py',
+  ESP:'es',GER:'de',ECU:'ec',CIV:'ci',CUW:'cw',ARG:'ar',NED:'nl',SWE:'se',
+  TUN:'tn',BEL:'be',EGY:'eg',IRN:'ir',NZL:'nz',JPN:'jp',KOR:'kr',KSA:'sa',
+  CPV:'cv',FRA:'fr',SEN:'sn',NOR:'no',IRQ:'iq',POR:'pt',ALG:'dz',AUT:'at',
+  JOR:'jo',COL:'co',UZB:'uz',COD:'cd',CRO:'hr',ITA:'it',GHA:'gh',PAN:'pa'
+};
+function flagUrl(team){const cc=FLAG_CC[team.id]||team.id.toLowerCase();return `url(https://flagcdn.com/w320/${cc}.png)`;}
+function flagImg(team){return '<div class="flag-img" style="background-image:'+flagUrl(team)+'" title="'+team.cn+'"></div>';}
+TEAMS.forEach(t=>{t.flagImg=flagImg(t);t.flagCss='background-image:'+flagUrl(t);});
+
 const ROSTERS = {
   MEX:{starters:[{pos:"GK",name:"Raúl Rangel",club:"Chivas"},{pos:"RB",name:"Jorge Sánchez",club:"PAOK"},{pos:"CB",name:"César Montes",club:"Lokomotiv Moscow"},{pos:"CB",name:"Johan Vásquez",club:"Genoa"},{pos:"LB",name:"Jesús Gallardo",club:"Toluca"},{pos:"CM",name:"Edson Álvarez",club:"Fenerbahce"},{pos:"CM",name:"Luis Chávez",club:"Dynamo Moscow"},{pos:"RW",name:"Alexis Vega",club:"Toluca"},{pos:"AM",name:"Orbelín Pineda",club:"AEK Athens"},{pos:"LW",name:"Cesar Huerta",club:"Anderlecht"},{pos:"CF",name:"Santiago Giménez",club:"AC Milan"}],subs:[{pos:"GK",name:"Guillermo Ochoa",club:"AEL Limassol"},{pos:"MF",name:"Álvaro Fidalgo",club:"Real Betis"},{pos:"FW",name:"Raúl Jiménez",club:"Fulham"},{pos:"DF",name:"Israel Reyes",club:"Club América"},{pos:"MF",name:"Obed Vargas",club:"Atletico Madrid"}]},
   CAN:{starters:[{pos:"GK",name:"Dayne St. Clair",club:"Inter Miami"},{pos:"RB",name:"Alistair Johnston",club:"Celtic"},{pos:"CB",name:"Moïse Bombito",club:"OGC Nice"},{pos:"CB",name:"Derek Cornelius",club:"Marseille"},{pos:"LB",name:"Alphonso Davies",club:"Bayern Munich"},{pos:"CM",name:"Stephen Eustáquio",club:"FC Porto"},{pos:"CM",name:"Ismaël Koné",club:"Sassuolo"},{pos:"RW",name:"Tajon Buchanan",club:"Villarreal"},{pos:"LW",name:"Jacob Shaffelburg",club:"LAFC"},{pos:"CF",name:"Jonathan David",club:"Juventus"},{pos:"CF",name:"Cyle Larin",club:"Mallorca"}],subs:[{pos:"GK",name:"Maxime Crépeau",club:"Orlando City"},{pos:"DF",name:"Richie Laryea",club:"Toronto FC"},{pos:"MF",name:"Mathieu Choinière",club:"LAFC"},{pos:"FW",name:"Promise David",club:"Union Saint-Gilloise"}]},
@@ -664,11 +750,11 @@ function init() {
 }
 
 function setResultHeader() {
-  document.getElementById('rFlag1').textContent=s1.flag;
+  document.getElementById('rFlag1').innerHTML=s1.flagImg;
   document.getElementById('rName1').textContent=s1.cn;
   document.getElementById('rNameEn1').textContent=s1.name;
   document.getElementById('rRank1').textContent='FIFA 排名 #'+s1.rank;
-  document.getElementById('rFlag2').textContent=s2.flag;
+  document.getElementById('rFlag2').innerHTML=s2.flagImg;
   document.getElementById('rName2').textContent=s2.cn;
   document.getElementById('rNameEn2').textContent=s2.name;
   document.getElementById('rRank2').textContent='FIFA 排名 #'+s2.rank;
@@ -734,7 +820,7 @@ async function showRosters() {
   document.getElementById('analysisBlock').innerHTML='';
   document.getElementById('opinionBlock').style.display='none';
   const sec=document.getElementById('rosterSection');sec.style.display='block';
-  document.getElementById('rosterTabs').innerHTML=`<button class="roster-tab active" onclick="switchRoster('${s1.id}','${s2.id}','a',this)">${s1.flag} ${s1.cn} 阵容</button><button class="roster-tab" onclick="switchRoster('${s1.id}','${s2.id}','b',this)">${s2.flag} ${s2.cn} 阵容</button>`;
+  document.getElementById('rosterTabs').innerHTML=`<button class="roster-tab active" onclick="switchRoster('${s1.id}','${s2.id}','a',this)"><span class="tab-flag-img" style="background-image:${flagUrl(s1)}"></span>${s1.cn}</button><button class="roster-tab" onclick="switchRoster('${s1.id}','${s2.id}','b',this)"><span class="tab-flag-img" style="background-image:${flagUrl(s2)}"></span>${s2.cn}</button>`;
   const container=document.getElementById('rosterContent');container.innerHTML='';
   renderRosterHero(s1.id,'a');renderRosterHero(s2.id,'b');
   document.querySelectorAll('#rosterContent > div')[1].style.display='none';
@@ -747,7 +833,13 @@ function switchRoster(id1,id2,which,btn){
   document.querySelectorAll('#rosterContent > div').forEach((d,i)=>{d.style.display=(i===0&&which==='a'||i===1&&which==='b')?'block':'none'});
 }
 
-function getStarForTeam(teamId){return TEAM_STARS[teamId]||null}
+function getStarForTeam(teamId){
+  const star=TEAM_STARS[teamId];
+  if(!star)return null;
+  // Auto-fill image from PLAYER_IMAGES if missing
+  if(!star.img)star.img=getPlayerImage(star.name);
+  return star;
+}
 function getPlayerImage(playerName){return PLAYER_IMAGES[playerName]||''}
 function getInitials(name){const parts=name.split(' ');if(parts.length>=2)return(parts[0][0]+parts[parts.length-1][0]).toUpperCase();return name.substring(0,2).toUpperCase()}
 
@@ -770,14 +862,22 @@ function renderRosterHero(teamId,suffix){
   const pitchHTML=rows.map((row,ri)=>`<div class="formation-row" style="justify-content:${row.justify||'center'};gap:${row.gap||10}px">${row.players.map(p=>buildPlayerCard(p,colors,ri===0?'gk':'field')).join('')}</div>`).join('');
   const starName=star?star.name:'';
   const starClub=star?star.club:'';
+  const starImg=star&&star.img?`<div class="star-photo" style="background-image:url('${star.img}')"></div>`:'';
   const subCards=r.subs.length?r.subs.map(p=>buildPlayerCard(p,colors,'sub')).join(''):'<div style="color:var(--text-muted);font-size:12px;padding:10px 0">替补名单更新中</div>';
+  const team=TEAMS.find(t=>t.id===teamId);
   div.innerHTML=`
     <div class="roster-hero" style="${bgImage}">
-      <div class="roster-hero-overlay" style="background:linear-gradient(135deg,${colors[0]}66,${colors[1]}33,var(--dark) 75%)"></div>
+      <div class="roster-hero-overlay" style="background:linear-gradient(135deg,${colors[0]}aa,${colors[1]}55,var(--dark) 75%)"></div>
       <div class="roster-hero-content">
-        <div class="star-tag"> 当家球星</div>
-        <div class="star-name">${starName}</div>
-        <div class="star-club">${starClub?'效力于 '+starClub:''}</div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px">
+          <div class="roster-hero-flag" style="background-image:${flagUrl(team)}"></div>
+          <div>
+            <div class="star-tag"> 当家球星</div>
+            <div class="star-name">${starName}</div>
+            <div class="star-club">${starClub?'效力于 '+starClub:'国际球星'}</div>
+          </div>
+        </div>
+        ${starImg}
       </div>
     </div>
     <div class="roster-section-label"><span> 首发阵容</span><span class="formation-badge">${formation} 阵型</span></div>
@@ -798,7 +898,16 @@ function buildPlayerCard(p,colors,type){
   const fontSize=type==='gk'?16:13;
   const nameSize=type==='gk'?13:11;
   const clubSize=type==='sub'?10:9;
-  return `<div class="player-card ${type}"><div class="player-avatar ${imgClass}" style="${avatarBg}width:${size}px;height:${size}px;font-size:${fontSize}px;">${img?'':initials}</div><div class="player-info"><div class="p-name" style="font-size:${nameSize}px;">${p.name}</div><div class="p-pos">${p.pos}</div>${p.club&&p.club!=='—'?`<div class="p-club" style="font-size:${clubSize}px;">${p.club}</div>`:''}</div></div>`;
+  const posCN=translatePos(p.pos);
+  return `<div class="player-card ${type}"><div class="player-avatar ${imgClass}" style="${avatarBg}width:${size}px;height:${size}px;font-size:${fontSize}px;">${img?'':initials}</div><div class="player-info"><div class="p-name" style="font-size:${nameSize}px;">${p.name}</div><div class="p-pos">${posCN}</div>${p.club&&p.club!=='—'?`<div class="p-club" style="font-size:${clubSize}px;">${p.club}</div>`:''}</div></div>`;
+}
+
+function translatePos(pos){
+  const map={GK:'门将',RB:'右后卫',CB:'中后卫',LB:'左后卫',RWB:'右边翼卫',LWB:'左边翼卫',
+    CM:'中场',CDM:'后腰',CAM:'前腰',RM:'右前卫',LM:'左前卫',
+    RW:'右边锋',LW:'左边锋',AM:'攻击中场',CF:'中锋',ST:'前锋',FW:'前锋',
+    DF:'后卫',MF:'中场'};
+  return map[pos]||pos;
 }
 
 function buildFormationRows(starters,formation){
@@ -828,11 +937,21 @@ async function showOpinions(){
   const ob=document.getElementById('opinionBlock');
   ob.style.display='block';
   ob.innerHTML=`
-    <h3>个人分析与观点</h3>
-    <p><strong>${s1.flag} ${s1.cn} (${s1.name})</strong></p>
-    <p style="margin-bottom:16px">${s1.opinion||'该球队暂无个人分析记录'}</p>
-    <p><strong>${s2.flag} ${s2.cn} (${s2.name})</strong></p>
-    <p style="margin-bottom:16px">${s2.opinion||'该球队暂无个人分析记录'}</p>
+    <h3 class="section-title">个人分析与观点</h3>
+    <div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div class="opinion-flag" style="background-image:${flagUrl(s1)}"></div>
+        <strong style="font-size:18px">${s1.cn} <span style="color:var(--text-dim);font-size:13px;font-weight:400">${s1.name}</span></strong>
+      </div>
+      <p style="margin-bottom:20px">${s1.opinion||'该球队暂无个人分析记录'}</p>
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div class="opinion-flag" style="background-image:${flagUrl(s2)}"></div>
+        <strong style="font-size:18px">${s2.cn} <span style="color:var(--text-dim);font-size:13px;font-weight:400">${s2.name}</span></strong>
+      </div>
+      <p style="margin-bottom:20px">${s2.opinion||'该球队暂无个人分析记录'}</p>
+    </div>
     <div id="newsContainer" style="margin-top:12px">
       <button class="btn btn-secondary" onclick="fetchTeamNews()" style="font-size:13px;padding:10px 24px"> 搜索两队最新新闻</button>
     </div>
@@ -855,14 +974,14 @@ async function fetchTeamNews(){
     const [d1,d2]=await Promise.all([r1.json(),r2.json()]);
     let html='';
     if(d1.success&&d1.news.length>0){
-      html+=`<div class="news-block"><h4>${s1.flag} ${s1.cn} — 搜到 ${d1.count} 条新闻</h4>`;
+      html+=`<div class="news-block"><h4><span class="news-flag" style="background-image:${flagUrl(s1)}"></span>${s1.cn} — 搜到 ${d1.count} 条新闻</h4>`;
       d1.news.slice(0,15).forEach(n=>{
         html+=`<div class="news-item"><div class="news-title">${n.title}</div><div class="news-src">${n.source||''} ${n.date||''}</div></div>`;
       });
       html+='</div>';
     }
     if(d2.success&&d2.news.length>0){
-      html+=`<div class="news-block" style="margin-top:12px"><h4>${s2.flag} ${s2.cn} — 搜到 ${d2.count} 条新闻</h4>`;
+      html+=`<div class="news-block" style="margin-top:12px"><h4><span class="news-flag" style="background-image:${flagUrl(s2)}"></span>${s2.cn} — 搜到 ${d2.count} 条新闻</h4>`;
       d2.news.slice(0,15).forEach(n=>{
         html+=`<div class="news-item"><div class="news-title">${n.title}</div><div class="news-src">${n.source||''} ${n.date||''}</div></div>`;
       });
