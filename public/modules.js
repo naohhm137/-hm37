@@ -145,80 +145,297 @@ function getTeamRecord(code) {
 // Placeholder live standings (will be updated during tournament)
 const LIVE_STANDINGS = {};
 
-// ============ BRACKET MODULE ============
+// ============ BRACKET MODULE - PREMIUM WORLD CUP TREE ============
+
 function renderBracket() {
   const container = document.getElementById('bracketContent');
-  let html = '<div class="bracket-container">';
 
-  // Round of 32
-  html += '<div class="bracket-round"><div class="bracket-round-title">32强</div><div class="bracket-matches">';
-  WORLD_CUP_SCHEDULE.knockout.round32.forEach((m, i) => {
-    html += renderBracketMatch(m, i);
-  });
-  html += '</div></div>';
+  // ---- POSITION LABEL HELPER ----
+  function getPosInfo(code) {
+    if (!code) return { label: '待定', flag: null };
+    if (code === '3rd') return { label: '小组第3', flag: null, isPos: true };
+    if (code.startsWith('W-')) return { label: code.replace('W-', '') + ' 胜者', flag: null, isPos: true };
+    if (code.startsWith('L-')) return { label: code.replace('L-', '') + ' 负者', flag: null, isPos: true };
+    const m = code.match(/^([A-L])([12])$/);
+    if (m) {
+      const grp = WORLD_CUP_GROUPS[m[1]];
+      const posNames = { 1: '第1', 2: '第2' };
+      if (grp) {
+        const teamIdx = parseInt(m[2]) - 1;
+        const team = grp.teams[teamIdx];
+        if (team) return { label: m[1] + '组' + posNames[m[2]], flag: team.flag, isPos: true };
+      }
+      return { label: m[1] + '组' + posNames[m[2]], flag: null, isPos: true };
+    }
+    return { label: code, flag: null, isPos: true };
+  }
 
-  // Round of 16
-  html += '<div class="bracket-round"><div class="bracket-round-title">16强</div><div class="bracket-matches">';
-  WORLD_CUP_SCHEDULE.knockout.round16.forEach((m, i) => {
-    html += renderBracketMatch(m, i);
-  });
-  html += '</div></div>';
+  function getFlagUrl(flagCode) {
+    if (!flagCode) return '';
+    return `https://flagcdn.com/w320/${flagCode}.png`;
+  }
 
-  // Quarterfinals
-  html += '<div class="bracket-round"><div class="bracket-round-title">1/4决赛</div><div class="bracket-matches">';
-  WORLD_CUP_SCHEDULE.knockout.quarterfinals.forEach((m, i) => {
-    html += renderBracketMatch(m, i);
-  });
-  html += '</div></div>';
+  // ---- RENDER A SINGLE MATCH CARD ----
+  function renderMatchCard(match, roundLabel, matchLabel) {
+    const p1 = getPosInfo(match.team1);
+    const p2 = getPosInfo(match.team2);
+    const dateParts = match.date ? match.date.split('-') : null;
+    const dateStr = dateParts ? dateParts[1] + '月' + dateParts[2] + '日' : '';
 
-  // Semifinals
-  html += '<div class="bracket-round"><div class="bracket-round-title">半决赛</div><div class="bracket-matches">';
-  WORLD_CUP_SCHEDULE.knockout.semifinals.forEach((m, i) => {
-    html += renderBracketMatch(m, i);
-  });
-  html += '</div></div>';
-
-  // Third place + Final
-  html += '<div class="bracket-round"><div class="bracket-round-title">决赛</div><div class="bracket-matches">';
-  html += renderBracketMatch(WORLD_CUP_SCHEDULE.knockout.thirdPlace, 0, '三四名');
-  html += renderBracketMatch(WORLD_CUP_SCHEDULE.knockout.final, 1, '决赛');
-  html += '</div></div>';
-
-  html += '</div>';
-  container.innerHTML = html;
-}
-
-function renderBracketMatch(match, index, label) {
-  const t1Display = resolveSlot(match.team1);
-  const t2Display = resolveSlot(match.team2);
-  const scoreDisplay = match.score ? `${match.score.t1} - ${match.score.t2}` : 'vs';
-  const roundLabel = label || match.round;
-
-  return `<div class="bracket-match">
-    <div class="bm-round">${roundLabel}</div>
-    <div class="bm-teams">
-      <div class="bm-team">
-        <span class="bm-name">${t1Display}</span>
-        ${match.score ? `<span class="bm-score">${match.score.t1}</span>` : ''}
+    let html = `<div class="bt-match" data-id="${match.id}" data-round="${roundLabel}">
+      <div class="bt-match-id">${matchLabel || match.id}</div>
+      <div class="bt-team bt-top">
+        <span class="bt-flag" style="background-image:url(${getFlagUrl(p1.flag)})"></span>
+        <span class="bt-label${p1.isPos ? ' position-label' : ''}">${p1.label}</span>
       </div>
-      <div class="bm-divider">${match.score ? '-' : 'vs'}</div>
-      <div class="bm-team">
-        <span class="bm-name">${t2Display}</span>
-        ${match.score ? `<span class="bm-score">${match.score.t2}</span>` : ''}
-      </div>
+      <div class="bt-team bt-bottom">
+        <span class="bt-flag" style="background-image:url(${getFlagUrl(p2.flag)})"></span>
+        <span class="bt-label${p2.isPos ? ' position-label' : ''}">${p2.label}</span>
+      </div>`;
+    if (dateStr) html += `<div class="bt-date">${dateStr} · ${match.venue || ''}</div>`;
+    html += '</div>';
+    return html;
+  }
+
+  // ---- BRACKET TREE DATA ----
+  // Top half bracket (→ SF1 → Final)
+  const topHalfR32 = [
+    { id:'R32-1', team1:'A2', team2:'B2', match:'M1', date:'2026-06-28', venue:'SoFi Stadium' },
+    { id:'R32-4', team1:'F1', team2:'C2', match:'M3', date:'2026-06-29', venue:'Estadio BBVA' },
+    { id:'R32-3', team1:'E1', team2:'3rd', match:'M2', date:'2026-06-29', venue:'Gillette Stadium' },
+    { id:'R32-6', team1:'I1', team2:'3rd', match:'M5', date:'2026-06-30', venue:'MetLife Stadium' },
+    { id:'R32-12', team1:'K2', team2:'L2', match:'M11', date:'2026-07-02', venue:'BMO Field' },
+    { id:'R32-11', team1:'H1', team2:'J2', match:'M12', date:'2026-07-02', venue:'SoFi Stadium' },
+    { id:'R32-10', team1:'D1', team2:'3rd', match:'M9', date:'2026-07-01', venue:'Levi\'s Stadium' },
+    { id:'R32-9', team1:'G1', team2:'3rd', match:'M10', date:'2026-07-01', venue:'Lumen Field' }
+  ];
+
+  const topHalfR16 = [
+    { id:'R16-1', team1:'W-M1', team2:'W-M3', match:'R16', date:'2026-07-04', venue:'NRG Stadium' },
+    { id:'R16-2', team1:'W-M2', team2:'W-M5', match:'R16', date:'2026-07-04', venue:'Lincoln Financial' },
+    { id:'R16-5', team1:'W-M11', team2:'W-M12', match:'R16', date:'2026-07-06', venue:'AT&T Stadium' },
+    { id:'R16-6', team1:'W-M9', team2:'W-M10', match:'R16', date:'2026-07-06', venue:'Lumen Field' }
+  ];
+
+  const topHalfQF = [
+    { id:'QF-1', team1:'W-R16-1', team2:'W-R16-2', match:'QF', date:'2026-07-09', venue:'Gillette Stadium' },
+    { id:'QF-2', team1:'W-R16-5', team2:'W-R16-6', match:'QF', date:'2026-07-10', venue:'SoFi Stadium' }
+  ];
+
+  const topHalfSF = [
+    { id:'SF-1', team1:'W-QF1', team2:'W-QF2', match:'SF', date:'2026-07-14', venue:'AT&T Stadium' }
+  ];
+
+  // Bottom half bracket (→ SF2 → Final)
+  const bottomHalfSF = [
+    { id:'SF-2', team1:'W-QF3', team2:'W-QF4', match:'SF', date:'2026-07-15', venue:'Mercedes-Benz' }
+  ];
+
+  const bottomHalfQF = [
+    { id:'QF-3', team1:'W-R16-3', team2:'W-R16-4', match:'QF', date:'2026-07-11', venue:'Hard Rock Stadium' },
+    { id:'QF-4', team1:'W-R16-7', team2:'W-R16-8', match:'QF', date:'2026-07-11', venue:'Arrowhead Stadium' }
+  ];
+
+  const bottomHalfR16 = [
+    { id:'R16-3', team1:'W-M4', team2:'W-M6', match:'R16', date:'2026-07-05', venue:'MetLife Stadium' },
+    { id:'R16-4', team1:'W-M7', team2:'W-M8', match:'R16', date:'2026-07-05', venue:'Estadio Azteca' },
+    { id:'R16-7', team1:'W-M14', team2:'W-M16', match:'R16', date:'2026-07-07', venue:'Mercedes-Benz' },
+    { id:'R16-8', team1:'W-M13', team2:'W-M15', match:'R16', date:'2026-07-07', venue:'BC Place' }
+  ];
+
+  const bottomHalfR32 = [
+    { id:'R32-2', team1:'C1', team2:'F2', match:'M4', date:'2026-06-29', venue:'NRG Stadium' },
+    { id:'R32-5', team1:'E2', team2:'I2', match:'M6', date:'2026-06-30', venue:'AT&T Stadium' },
+    { id:'R32-7', team1:'A1', team2:'3rd', match:'M7', date:'2026-06-30', venue:'Estadio Azteca' },
+    { id:'R32-8', team1:'L1', team2:'3rd', match:'M8', date:'2026-07-01', venue:'Mercedes-Benz' },
+    { id:'R32-14', team1:'D2', team2:'G2', match:'M16', date:'2026-07-03', venue:'AT&T Stadium' },
+    { id:'R32-16', team1:'K1', team2:'3rd', match:'M15', date:'2026-07-03', venue:'Arrowhead Stadium' },
+    { id:'R32-13', team1:'B1', team2:'3rd', match:'M13', date:'2026-07-02', venue:'BC Place' },
+    { id:'R32-15', team1:'J1', team2:'H2', match:'M14', date:'2026-07-03', venue:'Hard Rock Stadium' }
+  ];
+
+  // ---- RENDER HTML ----
+  let html = '<div class="bracket-scroll"><div class="bracket-tree">';
+
+  // Helper to render a column of matches
+  function renderRoundCol(matches, title) {
+    let h = `<div class="bt-round"><div class="bt-round-title">${title}</div><div class="bt-round-matches">`;
+    matches.forEach(m => {
+      h += renderMatchCard(m, title, m.match || '');
+    });
+    h += '</div></div>';
+    return h;
+  }
+
+  // LEFT SIDE: Top half (R32 → R16 → QF → SF)
+  html += renderRoundCol(topHalfR32, '32强');
+  html += renderRoundCol(topHalfR16, '16强');
+  html += renderRoundCol(topHalfQF, '1/4决赛');
+  html += renderRoundCol(topHalfSF, '半决赛');
+
+  // CENTER: Final + 3rd place + Trophy
+  html += '<div class="bt-round bt-center-col"><div class="bt-round-title">决赛</div><div class="bt-round-matches">';
+  // 3rd place match
+  const thirdPlace = WORLD_CUP_SCHEDULE.knockout.thirdPlace;
+  html += `<div class="bt-match bt-third" data-id="3P" data-round="3rd">
+    <div class="bt-match-id">三四名决赛</div>
+    <div class="bt-team bt-top">
+      <span class="bt-flag" style="background-image:url()"></span>
+      <span class="bt-label position-label">L-SF1 负者</span>
     </div>
-    <div class="bm-info">${match.date.split('-')[1]}月${match.date.split('-')[2]}日 · ${match.venue}</div>
+    <div class="bt-team bt-bottom">
+      <span class="bt-flag" style="background-image:url()"></span>
+      <span class="bt-label position-label">L-SF2 负者</span>
+    </div>
+    <div class="bt-date">7月18日 · 迈阿密</div>
   </div>`;
+
+  // Trophy
+  html += '<div class="bt-trophy-center"><div class="bt-trophy-wrap"><div class="bt-trophy-img"></div><div class="bt-champions">CHAMPIONS</div></div></div>';
+
+  // Final match
+  html += `<div class="bt-match bt-champion-match" data-id="FINAL" data-round="final">
+    <div class="bt-match-id">决赛 · 7月19日</div>
+    <div class="bt-team bt-top">
+      <span class="bt-flag" style="background-image:url()"></span>
+      <span class="bt-label position-label">W-SF1 胜者</span>
+    </div>
+    <div class="bt-team bt-bottom">
+      <span class="bt-flag" style="background-image:url()"></span>
+      <span class="bt-label position-label">W-SF2 胜者</span>
+    </div>
+    <div class="bt-date">MetLife Stadium · 纽约</div>
+  </div>`;
+  html += '</div></div>'; // center col
+
+  // RIGHT SIDE: Bottom half (SF ← QF ← R16 ← R32) - mirrored
+  html += renderRoundCol(bottomHalfSF, '半决赛');
+  html += renderRoundCol(bottomHalfQF, '1/4决赛');
+  html += renderRoundCol(bottomHalfR16, '16强');
+  html += renderRoundCol(bottomHalfR32, '32强');
+
+  html += '</div>'; // bracket-tree
+
+  // SVG layer for connector lines
+  html += '<svg class="bt-lines" id="btLines" preserveAspectRatio="xMidYMid meet"></svg>';
+  html += '</div>'; // bracket-scroll
+
+  container.innerHTML = html;
+
+  // Draw connector lines after DOM rendered
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => drawBracketLines());
+  });
 }
 
-function resolveSlot(slot) {
-  if (!slot) return '待定';
-  if (slot.startsWith('W-')) return slot.replace('W-', '') + '胜者';
-  if (slot.startsWith('L-')) return slot.replace('L-', '') + '负者';
-  // Map group positions to team names (to be resolved during tournament)
-  const posMap = { 'A1':'A组第1', 'B1':'B组第1', 'C1':'C组第1', 'D1':'D组第1', 'E1':'E组第1', 'F1':'F组第1', 'G1':'G组第1', 'H1':'H组第1', 'I1':'I组第1', 'J1':'J组第1', 'K1':'K组第1', 'L1':'L组第1', 'A2':'A组第2', 'B2':'B组第2', 'C2':'C组第2', 'D2':'D组第2', 'E2':'E组第2', 'F2':'F组第2', 'G2':'G组第2', 'H2':'H组第2', 'I2':'I组第2', 'J2':'J组第2', 'K2':'K组第2', 'L2':'L组第2', '3rd':'小组第3' };
-  return posMap[slot] || slot;
+// ---- DRAW BRACKET CONNECTOR LINES ----
+function drawBracketLines() {
+  const svg = document.getElementById('btLines');
+  const scroll = document.querySelector('.bracket-scroll');
+  if (!svg || !scroll) return;
+
+  const scrollRect = scroll.getBoundingClientRect();
+  const scrollLeft = scroll.scrollLeft;
+  const scrollTop = scroll.scrollTop;
+
+  svg.setAttribute('width', scroll.scrollWidth);
+  svg.setAttribute('height', scroll.scrollHeight);
+  svg.style.width = scroll.scrollWidth + 'px';
+  svg.style.height = scroll.scrollHeight + 'px';
+
+  // Get container-relative position of an element
+  function relPos(el) {
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return {
+      x: r.left - scrollRect.left + scrollLeft,
+      y: r.top - scrollRect.top + scrollTop,
+      w: r.width,
+      h: r.height
+    };
+  }
+
+  // Connection map: which pairs of R32/R16 matches feed which next-round match
+  const connections = {
+    'R32-1,R32-4': 'R16-1',
+    'R32-3,R32-6': 'R16-2',
+    'R32-12,R32-11': 'R16-5',
+    'R32-10,R32-9': 'R16-6',
+    'R32-2,R32-5': 'R16-3',
+    'R32-7,R32-8': 'R16-4',
+    'R32-14,R32-16': 'R16-7',
+    'R32-13,R32-15': 'R16-8',
+    'R16-1,R16-2': 'QF-1',
+    'R16-5,R16-6': 'QF-2',
+    'R16-3,R16-4': 'QF-3',
+    'R16-7,R16-8': 'QF-4',
+    'QF-1,QF-2': 'SF-1',
+    'QF-3,QF-4': 'SF-2',
+  };
+
+  let pathD = '';
+
+  Object.entries(connections).forEach(([pairKey, targetId]) => {
+    const [id1, id2] = pairKey.split(',');
+    const p1 = relPos(document.querySelector(`.bt-match[data-id="${id1}"]`));
+    const p2 = relPos(document.querySelector(`.bt-match[data-id="${id2}"]`));
+    const pt = relPos(document.querySelector(`.bt-match[data-id="${targetId}"]`));
+
+    if (!p1 || !p2 || !pt) return;
+
+    const y1 = p1.y + p1.h/2;
+    const y2 = p2.y + p2.h/2;
+    const yt = pt.y + pt.h/2;
+    const x1 = p1.x + p1.w;
+    const x2 = p2.x + p2.w;
+    const xt = pt.x;
+    const bx = (x1 + x2) / 2 + 12;
+
+    // Draw bracket: source matches → horizontal to bracket → vertical to target Y → horizontal to target
+    pathD += `M${x1},${y1} L${bx},${y1} L${bx},${yt} L${xt},${yt} `;
+    pathD += `M${x2},${y2} L${bx},${y2} `;
+  });
+
+  // SF → Final
+  const sf1 = relPos(document.querySelector('.bt-match[data-id="SF-1"]'));
+  const sf2 = relPos(document.querySelector('.bt-match[data-id="SF-2"]'));
+  const fin = relPos(document.querySelector('.bt-match[data-id="FINAL"]'));
+  if (sf1 && sf2 && fin) {
+    const ys1 = sf1.y + sf1.h/2;
+    const ys2 = sf2.y + sf2.h/2;
+    const yf = fin.y + fin.h/2;
+    const xs1 = sf1.x + sf1.w;
+    const xs2 = sf2.x + sf2.w;
+    const xf = fin.x;
+    pathD += `M${xs1},${ys1} L${xf},${yf} `;
+    pathD += `M${xs2},${ys2} L${xf},${ys2} `;
+  }
+
+  // SF → 3rd place
+  const tp = relPos(document.querySelector('.bt-match[data-id="3P"]'));
+  if (sf1 && sf2 && tp) {
+    const ys1 = sf1.y + sf1.h/2;
+    const ys2 = sf2.y + sf2.h/2;
+    const ytp = tp.y + tp.h/2;
+    const xs1 = sf1.x + sf1.w;
+    const xs2 = sf2.x + sf2.w;
+    const xtp = tp.x;
+    pathD += `M${xs1},${ys1} L${xtp},${ytp} `;
+    pathD += `M${xs2},${ys2} L${xtp},${ys2} `;
+  }
+
+  svg.innerHTML = `<path d="${pathD}" stroke="rgba(200,169,81,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
+
+// Re-draw lines on window resize
+let bracketResizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(bracketResizeTimer);
+  bracketResizeTimer = setTimeout(() => {
+    const svg = document.getElementById('btLines');
+    if (svg) drawBracketLines();
+  }, 300);
+});
 
 // ============ TEAM PROFILE (in Roster Tab) ============
 function renderTeamProfile(code) {
