@@ -17,7 +17,7 @@ const FORMATIONS = {
   FRA:"4-2-3-1", SEN:"4-3-3", NOR:"4-3-3", IRQ:"4-4-2",
   POR:"4-3-3", ALG:"4-3-3", AUT:"4-2-3-1", JOR:"4-4-2",
   COL:"4-3-3", UZB:"4-4-2", COD:"4-4-2",
-  CRO:"4-3-3", ITA:"4-3-3", GHA:"4-4-2", PAN:"4-4-2"
+  CRO:"4-3-3", URU:"4-3-3", ITA:"4-3-3", GHA:"4-4-2", PAN:"4-4-2"
 };
 
 // ============ TEAM COLORS (primary/secondary for UI) ============
@@ -37,7 +37,7 @@ const TEAM_COLORS = {
   IRQ:["#CE1126","#000000"], POR:["#B81715","#046A38"], ALG:["#046A38","#FFFFFF"],
   AUT:["#EF3340","#FFFFFF"], JOR:["#CE1126","#007A3D"], COL:["#FCD116","#003893"],
   UZB:["#0099B5","#FFFFFF"], COD:["#007FFF","#F7D618"],
-  CRO:["#FF0000","#FFFFFF"], ITA:["#0066CC","#FFFFFF"], GHA:["#CE1126","#FCD116"],
+  CRO:["#FF0000","#FFFFFF"], URU:["#55B6E4","#000000"], ITA:["#0066CC","#FFFFFF"], GHA:["#CE1126","#FCD116"],
   PAN:["#0035AD","#D60B2D"]
 };
 
@@ -88,6 +88,7 @@ const TEAM_STARS = {
   UZB:{name:"Abdukodir Khusanov",club:"Manchester City",img:"https://images.uefa.com/imgml/TP/players/1/2025/324x324/250176302.jpg"},
   COD:{name:"Yoane Wissa",club:"Newcastle United",img:"https://images.uefa.com/imgml/TP/players/1/2025/324x324/250091220.jpg"},
   CRO:{name:"Luka Modrić",club:"AC Milan",img:"https://images.uefa.com/imgml/TP/players/1/2025/324x324/74699.jpg"},
+  URU:{name:"Federico Valverde",club:"Real Madrid",img:"https://images.uefa.com/imgml/TP/players/1/2025/324x324/250099475.jpg"},
   ITA:{name:"Nicolò Barella",club:"Inter Milan",img:"https://images.uefa.com/imgml/TP/players/1/2025/324x324/250084105.jpg"},
   GHA:{name:"Thomas Partey",club:"Villarreal",img:"https://images.uefa.com/imgml/TP/players/1/2025/324x324/250058754.jpg"},
   PAN:{name:"Adalberto Carrasquilla",club:"UNAM Pumas",img:"https://img.a.transfermarkt.technology/portrait/header/375300-1709581138.jpg"}
