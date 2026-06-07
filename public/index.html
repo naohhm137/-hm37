@@ -610,8 +610,8 @@ body::after{
   background:rgba(0,0,0,0.55);backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   border:1px solid rgba(255,255,255,0.06);flex-direction:column;
-  padding:10px 14px;border-radius:14px;gap:6px;text-align:center;
-  width:auto;min-width:78px;
+  padding:10px 14px;border-radius:14px;gap:5px;text-align:center;
+  width:auto;min-width:88px;
   transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
   box-shadow:0 4px 16px rgba(0,0,0,0.25);
 }
@@ -630,7 +630,17 @@ body::after{
 }
 .formation-row .p-name{font-size:11px!important;color:var(--text)}
 .formation-row .p-pos{font-size:9px;color:var(--text-muted)}
-.formation-row .p-club{font-size:8px!important;color:rgba(200,169,81,0.45)}
+.formation-row .p-club,
+.formation-row .player-info .p-club{
+  font-size:9px!important;
+  color:rgba(200,169,81,0.85)!important;
+  opacity:1!important;
+  font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  max-width:100%;
+  display:block!important;
+  line-height:1.3;
+}
 
 /* --- Roster Grid (Substitutes) — Card Gallery --- */
 .roster-grid{
@@ -865,7 +875,7 @@ body::after{
   .formation-row .player-card{min-width:55px;padding:6px 8px}
   .formation-row .player-avatar{width:38px!important;height:38px!important}
   .formation-row .p-name{font-size:9px!important}
-  .formation-row .p-club{display:none}
+  .formation-row .p-club{font-size:8px!important;display:block!important}
   .analysis-block{padding:20px}
   .result-vs{font-size:24px}
   .tournament-ribbon{padding:16px 12px;gap:0}
