@@ -1556,6 +1556,28 @@ function getFullRoster(teamId) {
   return { formation, starters, subs: [] };
 }
 
+// ============ GROUP L ROSTERS ============
+COMPLETE_ROSTERS.URU = { formation: "4-3-3", starters: [
+  {pos:"GK",name:"Sergio Rochet",club:"Nacional",num:1},
+  {pos:"RB",name:"Guillermo Varela",club:"Flamengo",num:2},
+  {pos:"CB",name:"José María Giménez",club:"Atlético Madrid",num:3},
+  {pos:"CB",name:"Sebastián Coates",club:"Sporting CP",num:4},
+  {pos:"LB",name:"Mathías Olivera",club:"Napoli",num:5},
+  {pos:"CM",name:"Manuel Ugarte",club:"Manchester United",num:6},
+  {pos:"CM",name:"Rodrigo Bentancur",club:"Tottenham",num:8},
+  {pos:"CM",name:"Federico Valverde",club:"Real Madrid",num:10},
+  {pos:"RW",name:"Facundo Pellistri",club:"Manchester United",num:7},
+  {pos:"LW",name:"Darwin Núñez",club:"Liverpool",num:9},
+  {pos:"ST",name:"Edinson Cavani",club:"Boca Juniors",num:11}
+], subs: [
+  {pos:"GK",name:"Fernando Muslera",club:"Galatasaray"},
+  {pos:"DF",name:"Ronald Araújo",club:"Barcelona"},
+  {pos:"MF",name:"Nicolás De La Cruz",club:"Flamengo"},
+  {pos:"FW",name:"Luis Suárez",club:"Estudiantes"},
+  {pos:"FW",name:"Maxi Gómez",club:"Trabzonspor"},
+  {pos:"MF",name:"Matías Vecino",club:"Lazio"}
+]};
+
 function getStarForTeam(teamId) {
   return TEAM_STARS[teamId] || null;
 }

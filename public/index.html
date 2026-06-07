@@ -695,6 +695,31 @@ body::after{
   font-size:10px;color:var(--gold);opacity:0.7;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+.player-info .p-value{
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:9px;font-weight:700;letter-spacing:0.5px;
+  color:rgba(200,169,81,0.55);margin-top:2px;
+  background:rgba(200,169,81,0.07);border-radius:4px;
+  padding:1px 5px;
+}
+.player-info .p-value.p-value-high{
+  color:rgba(255,210,80,0.9);background:rgba(200,169,81,0.14);
+}
+/* Squad total value badge */
+.squad-value-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;letter-spacing:1px;
+  padding:5px 14px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(200,169,81,0.18),rgba(200,169,81,0.06));
+  border:1px solid rgba(200,169,81,0.35);
+  color:var(--gold-bright);
+  box-shadow:0 0 20px rgba(200,169,81,0.08);
+}
+/* In formation view: smaller value tag */
+.formation-row .p-value{
+  font-size:7px!important;color:rgba(200,169,81,0.55)!important;
+  background:rgba(200,169,81,0.08);border-radius:3px;padding:1px 4px;
+}
 
 /* --- Section Labels --- */
 .roster-section-label{
@@ -1346,6 +1371,7 @@ body::after{
 <script src="schedule-data.js"></script>
 <script src="team-profiles.js"></script>
 <script src="teams-data.js"></script>
+<script src="player-values.js"></script>
 <script src="club-names-cn.js"></script>
 <script src="player-names-cn.js"></script>
 <script src="modules.js"></script>
@@ -1753,6 +1779,8 @@ function renderRosterHero(teamId,suffix){
   const aurora1=colors?`${colors[0]}cc`:'rgba(200,169,81,0.6)';
   const aurora2=colors?`${colors[1]}88`:'rgba(200,169,81,0.3)';
   const aurora3=colors?`${colors[0]}44`:'rgba(200,169,81,0.15)';
+  // Squad value
+  const squadVal=typeof getTeamSquadValue==='function'?getTeamSquadValue(teamId):null;
   div.innerHTML=`
     <div class="roster-hero" style="--aurora-1:${aurora1};--aurora-2:${aurora2};--aurora-3:${aurora3}">
       <div class="roster-hero-bg" data-number="${starNumber}">
@@ -1775,7 +1803,7 @@ function renderRosterHero(teamId,suffix){
     <div class="roster-section-label"><span> 首发阵容</span><span class="formation-badge">${formation} 阵型</span></div>
     <div class="pitch-container"><div class="pitch-crowd"></div><div class="pitch-bg">${pitchHTML}</div></div>
     <div class="ai-compare-chip"><span class="ai-chip-icon">⚡</span><span class="ai-chip-text">AI 战力分析: 点击 <strong>"个人分析"</strong> 按钮获取 DeepSeek 深度评估</span></div>
-    <div class="roster-section-label"> 替补阵容</div>
+    <div class="roster-section-label"> 替补阵容<span class="squad-value-badge">💰 球队总身价 €${squadVal ? squadVal + 'M' : '估算中'}</span></div>
     <div class="roster-grid">${subCards}</div>`;
   document.getElementById('rosterContent').appendChild(div);
 }
@@ -1793,7 +1821,12 @@ function buildPlayerCard(p,colors,type){
   const nameSize=type==='gk'?13:11;
   const clubSize=type==='sub'?10:9;
   const posCN=translatePos(p.pos);
-  return `<div class="player-card ${type}"><div class="player-avatar ${imgClass}" style="${avatarBg}width:${size}px;height:${size}px;font-size:${fontSize}px;">${img?'':initials}</div><div class="player-info"><div class="p-name" style="font-size:${nameSize}px;">${cnName}</div><div class="p-pos">${posCN}</div>${p.club&&p.club!=='—'?`<div class="p-club" style="font-size:${clubSize}px;">${getClubCN(p.club)}</div>`:''}</div></div>`;
+  // Value display
+  const val=typeof getPlayerValue==='function'?getPlayerValue(p.name):null;
+  const valStr=val?formatValue(val):'';
+  const valClass=val&&val>=50?'p-value p-value-high':'p-value';
+  const valHtml=valStr?`<div class="${valClass}">💰${valStr}</div>`:'';
+  return `<div class="player-card ${type}"><div class="player-avatar ${imgClass}" style="${avatarBg}width:${size}px;height:${size}px;font-size:${fontSize}px;">${img?'':initials}</div><div class="player-info"><div class="p-name" style="font-size:${nameSize}px;">${cnName}</div><div class="p-pos">${posCN}</div>${p.club&&p.club!=='—'?`<div class="p-club" style="font-size:${clubSize}px;">${getClubCN(p.club)}</div>`:''}<div class="${valClass}" style="font-size:${type==='field'||type==='gk'?'7px':'9px'}">${valStr?'💰'+valStr:''}</div></div></div>`;
 }
 
 function translatePos(pos){
